@@ -1,0 +1,23 @@
+{
+    "Name":"YOLOv5s",
+    "HostRootPath": "yolov5s",
+    "HostResultsDir":"yolov5s/results",
+    "DevicePath":"/data/local/tmp/snpebm",
+    "Devices":["123456"],
+    "HostName": "localhost",
+    "Runs":2,
+
+    "Model": {
+        "Name": "YOLOV5S",
+        "Dlc": "./yolov5s/yolov5s.dlc",
+        "InputList": "./yolov5s/target_raw_list.txt",
+        "Data": [
+            "./yolov5s/cropped"
+        ]
+    },
+
+    "Runtimes":["GPU", "CPU", "DSP"],
+    "Measurements": ["timing"],
+    "ProfilingLevel": "detailed"
+
+ }
