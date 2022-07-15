@@ -77,7 +77,7 @@ bool ObjectDetectionImpl::PreProcess(const cv::Mat& image)
         return false;
     }
 
-    cv::Mat input(inputHeight, inputWidth, CV_32FC3, m_task->getInputTensor(m_inputLayers[0]), inputWidth * channel);
+    cv::Mat input(inputHeight, inputWidth, CV_32FC3, m_task->getInputTensor(m_inputLayers[0]));
 
     if (image.empty()) {
         LOG_ERROR("Invalid image!");
