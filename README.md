@@ -72,14 +72,14 @@ root@tc-eb5:/home/tc-eb5/local/SNPETask# tree
 # CMake/OpenCV/spdlog需要用户编译安装
 # yolov5s.onnx预训练模型可以从官方repo通过export.py获取，详细流程请阅读：./doc/ModelConvert.md
 # 其余依赖可以使用apt-get install安装
-sudo apt-get install libjson-glib-dev libgflags-dev
+# sudo apt-get install libjson-glib-dev libgflags-dev
 ```
 
 ## Build & Compile
 
-项目使用`CMakeLists.txt`进行构建和包管理，并提供了`build.sh`脚本用于构建整个项目（包含`alg`），运行成功将输出如下log：
+项目使用`CMakeLists.txt`进行构建和包管理，并提供了`build.sh`脚本用于构建整个项目，运行成功将输出如下log：
 
-![1656989473210](images/1656989473210.png)
+![1658202300948](images/1658202300948.png)
 
 假如编译失败则会输出`[failed]`，相应的build deb package也会失败。
 
