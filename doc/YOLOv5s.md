@@ -5,7 +5,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-07-09 11:39:17
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-07-11 20:09:39
+ * @LastEditTime: 2022-08-12 05:19:52
 -->
 # Encapsulation of YOLOv5s
 
@@ -105,10 +105,9 @@ bool ObjectDetectionImpl::PreProcess(const cv::Mat& image)
     m_xOffset = (inputWidth - scaledWidth) / 2;
     m_yOffset = (inputHeight - scaledHeight) / 2;
 
-    cv::Mat image_tmp(imgHeight, imgWidth, CV_8UC3, image.data);
     cv::Mat inputMat(inputHeight, inputWidth, CV_8UC3, cv::Scalar(128, 128, 128));
     cv::Mat roiMat(inputMat, cv::Rect(m_xOffset, m_yOffset, scaledWidth, scaledHeight));
-    cv::resize(image_tmp, roiMat, cv::Size(scaledWidth, scaledHeight), cv::INTER_LINEAR);
+    cv::resize(image, roiMat, cv::Size(scaledWidth, scaledHeight), cv::INTER_LINEAR);
 
     inputMat.convertTo(input, CV_32FC3);
     input /= 255.0f;
@@ -132,7 +131,6 @@ bool TSObjectDetectionImpl::PostProcess(std::vector<ObjectData> &results)
     // [3 * 40 * 40 * 25]--------> [25200 * 25]
     // [3 * 20 * 20 * 25]----/
     float* tmpOutput = m_output;
-	float* tmpOutput = m_output;
     for (size_t i = 0; i < 3; i++) {
         auto outputShape = m_task->getOutputShape(m_outputTensors[i]);
         const float *predOutput = m_task->getOutputTensor(m_outputTensors[i]);

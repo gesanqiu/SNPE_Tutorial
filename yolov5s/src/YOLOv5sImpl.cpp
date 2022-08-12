@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-17 20:28:01
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-07-12 17:19:31
+ * @LastEditTime: 2022-08-12 05:18:32
  */
 
 #include <math.h>
@@ -93,10 +93,9 @@ bool ObjectDetectionImpl::PreProcess(const cv::Mat& image)
     m_xOffset = (inputWidth - scaledWidth) / 2;
     m_yOffset = (inputHeight - scaledHeight) / 2;
 
-    cv::Mat image_tmp(imgHeight, imgWidth, CV_8UC3, image.data);
     cv::Mat inputMat(inputHeight, inputWidth, CV_8UC3, cv::Scalar(128, 128, 128));
     cv::Mat roiMat(inputMat, cv::Rect(m_xOffset, m_yOffset, scaledWidth, scaledHeight));
-    cv::resize(image_tmp, roiMat, cv::Size(scaledWidth, scaledHeight), cv::INTER_LINEAR);
+    cv::resize(image, roiMat, cv::Size(scaledWidth, scaledHeight), cv::INTER_LINEAR);
 
     inputMat.convertTo(input, CV_32FC3);
     input /= 255.0f;
