@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-07-09 13:07:37
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-07-11 20:10:36
+ * @LastEditTime: 2022-10-10 12:25:23
  */
 #pragma once
 
@@ -24,7 +24,7 @@
 typedef enum runtime {
     CPU = 0,
     GPU,
-    GPU_16,
+    GPU_FLOAT16,
     DSP,
     AIP
 }runtime_t;

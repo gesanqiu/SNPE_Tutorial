@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-18 09:48:36
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-07-12 08:58:13
+ * @LastEditTime: 2022-10-10 13:10:24
  */
 
 
@@ -80,7 +80,7 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
         case GPU:
             m_runtime = zdl::DlSystem::Runtime_t::GPU;
             break;
-        case GPU_16:
+        case GPU_FLOAT16:
             m_runtime = zdl::DlSystem::Runtime_t::GPU_FLOAT16;
             break;
         case DSP:

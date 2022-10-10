@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-18 16:51:10
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-07-12 08:24:42
+ * @LastEditTime: 2022-10-10 12:25:16
  */
 
 #include <string>
@@ -30,6 +30,8 @@ static runtime_t device2runtime(std::string & device)
         return CPU;
     } else if (0 == device.compare("gpu")) {
         return GPU;
+    } else if (0 == device.compare("gpu_float16")) {
+        return GPU_FLOAT16;
     } else if (0 == device.compare("dsp")) {
         return DSP;
     } else if (0 == device.compare("aip")) {
