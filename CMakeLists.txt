@@ -12,8 +12,11 @@ find_package(OpenCV REQUIRED)
 find_package(spdlog REQUIRED)
 
 include(FindPkgConfig)
-pkg_check_modules(GFLAGS REQUIRED gflags)
-pkg_check_modules(JSON   REQUIRED json-glib-1.0)
+pkg_check_modules(GST     REQUIRED gstreamer-1.0)
+pkg_check_modules(GFLAGS  REQUIRED gflags)
+pkg_check_modules(JSONCPP REQUIRED jsoncpp)
+pkg_check_modules(GSTAPP  REQUIRED gstreamer-app-1.0)
+pkg_check_modules(JSON    REQUIRED json-glib-1.0)
 
 include_directories(
     /usr/include/zdl
@@ -24,6 +27,9 @@ include_directories(
     ${OpenCV_INCLUDE_DIRS}
     ${spdlog_INCLUDE_DIRS}
     ${JSON_INCLUDE_DIRS}
+    ${GST_INCLUDE_DIRS}
+    ${GSTAPP_INCLUDE_DIRS}
+    ${JSONCPP_INCLUDE_DIRS}     # jsoncpp header directory
 )
 
 link_directories(
@@ -31,7 +37,11 @@ link_directories(
     ${GFLAGS_LIBRARY_DIRS}
     ${spdlog_LIBRARY_DIRS}
     ${JSON_LIBRARY_DIRS}
+    ${GST_LIBRARY_DIRS}
+    ${GSTAPP_LIBRARY_DIRS}
+    ${JSONCPP_LIBRARY_DIRS}     # jsoncpp library directory
     ${PROJECT_SOURCE_DIR}/lib
+    /usr/lib/aarch64-linux-gnu
 )
 
 set(LIBRARY_OUTPUT_PATH  ${CMAKE_SOURCE_DIR}/lib)
@@ -74,17 +84,5 @@ endif()
 add_subdirectory(yolov5s)
 
 # Compile test program
-add_executable(test-yolov5
-    ${PROJECT_SOURCE_DIR}/test/main.cpp
-)
-
-target_link_libraries(test-yolov5
-    PUBLIC
-    pthread
-    dl
-    ${OpenCV_LIBS}
-    ${GFLAGS_LIBRARIES}
-    ${JSON_LIBRARIES}
-    ${spdlog_LIBRARIES}
-    YOLOv5s
-)
+add_subdirectory(test/test_image)
+add_subdirectory(test/test_video)

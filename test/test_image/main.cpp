@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-18 16:51:10
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-10-10 12:25:16
+ * @LastEditTime: 2022-10-17 01:48:53
  */
 
 #include <string>
@@ -95,7 +95,7 @@ static bool validateConfigPath(const char* name, const std::string& value)
     return false;
 }
 
-DEFINE_string(config_path, "./yolov5s.json", "Model config file path.");
+DEFINE_string(config_path, "./config.json", "Model config file path.");
 DEFINE_validator(config_path, &validateConfigPath);
 
 DEFINE_double(confidence, 0.5, "Confidence Threshold.");
