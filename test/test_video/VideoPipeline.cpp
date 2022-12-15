@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-10-11 10:46:02
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-11-16 07:45:05
+ * @LastEditTime: 2022-12-15 18:59:34
  */
 
 #include <memory>
@@ -221,8 +221,8 @@ bool VideoPipeline::Create(void)
     g_signal_connect(appsink, "new-sample", G_CALLBACK(cb_appsink_new_sample), static_cast<void*>(this));
     gst_bin_add_many(GST_BIN(pipeline), appsink, NULL);
 
-    if (!gst_element_link_many(/*source, srcFilter, */queue, converter, convFilter, appsink, NULL)) {
-        LOG_ERROR("Failed to link qtiqmmfsrc->capfilter->queue->qtivtransform->capfilter->appsink");
+    if (!gst_element_link_many(queue, converter, convFilter, appsink, NULL)) {
+        LOG_ERROR("Failed to link uridecodebin->queue->qtivtransform->capfilter->appsink");
         goto exit;
     }
 
