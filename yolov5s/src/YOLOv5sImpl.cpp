@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-17 20:28:01
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-08-12 05:18:32
+ * @LastEditTime: 2022-12-15 05:05:53
  */
 
 #include <math.h>
@@ -191,25 +191,27 @@ bool ObjectDetectionImpl::PostProcess(std::vector<ObjectData> &results)
     for (size_t i = 0; i < boxIndexs.size(); i++) {
         int curIdx = boxIndexs[i];
         float curBoxConfidence = boxConfidences[i];
+        int max_idx = 5;
+        for (int j = 6; j < m_labels; j++) {    // 处理目标分类概率即m_labels中的[prob0, prob1,..., prob84]
+            if (m_output[curIdx * m_labels + j] > m_output[curIdx * m_labels + max_idx]) max_idx = j;
+        }
 
-        for (int j = 5; j < m_labels; j++) {    // 处理目标分类概率即m_labels中的[prob0, prob1,..., prob84]
-            float score = curBoxConfidence * m_output[curIdx * m_labels + j];
-            if (score > m_confThresh) {
-                ObjectData rect;
-                rect.bbox.width = m_output[curIdx * m_labels + 2];
-                rect.bbox.height = m_output[curIdx * m_labels + 3];
-                rect.bbox.x = std::max(0, static_cast<int>(m_output[curIdx * m_labels] - rect.bbox.width / 2)) - m_xOffset;
-                rect.bbox.y = std::max(0, static_cast<int>(m_output[curIdx * m_labels + 1] - rect.bbox.height / 2)) - m_yOffset;
+        float score = curBoxConfidence * m_output[curIdx * m_labels + max_idx];
+        if (score > m_confThresh) {
+            ObjectData rect;
+            rect.bbox.width = m_output[curIdx * m_labels + 2];
+            rect.bbox.height = m_output[curIdx * m_labels + 3];
+            rect.bbox.x = std::max(0, static_cast<int>(m_output[curIdx * m_labels] - rect.bbox.width / 2)) - m_xOffset;
+            rect.bbox.y = std::max(0, static_cast<int>(m_output[curIdx * m_labels + 1] - rect.bbox.height / 2)) - m_yOffset;
 
-                rect.bbox.width /= m_scale;
-                rect.bbox.height /= m_scale;
-                rect.bbox.x /= m_scale;
-                rect.bbox.y /= m_scale;
-                rect.confidence = score;
-                rect.label = j - 5;
+            rect.bbox.width /= m_scale;
+            rect.bbox.height /= m_scale;
+            rect.bbox.x /= m_scale;
+            rect.bbox.y /= m_scale;
+            rect.confidence = score;
+            rect.label = max_idx - 5;
 
-                winList.push_back(rect);
-            }
+            winList.push_back(rect);
         }
     }
 

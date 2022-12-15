@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-18 16:51:10
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-10-17 01:48:53
+ * @LastEditTime: 2022-12-15 05:05:45
  */
 
 #include <string>
@@ -224,7 +224,7 @@ int main(int argc, char* argv[])
 
         std::vector<yolov5::ObjectData> vec_res;
 
-        vec_alg[i]->Detect(img, vec_res);
+        vec_alg[i]->Detect(rgb_img, vec_res);
 
         LOG_INFO("result size: {}", vec_res.size());
 
