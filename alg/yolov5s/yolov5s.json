@@ -1,0 +1,34 @@
+{
+    "name":"yolov5s",
+    "lib":"/opt/thundersoft/algs/lib/libAlgYolov5s.so",
+    "config":{
+        "model-config":{
+            "model-path":"/opt/thundersoft/algs/model/yolov5s.dlc",
+            "label-path":"/opt/thundersoft/configs/yolov5s_labels.txt",
+            "runtime":"DSP",
+            "labels":85,
+            "grids":25200,
+            "input-layers":[
+                "images"
+            ],
+            "output-layers":[
+                "Sigmoid_199",
+                "Sigmoid_201",
+                "Sigmoid_203"
+            ],
+            "output-tensors":[
+                "output",
+                "329",
+                "331"
+            ]
+        },
+        "nms-thresh":0.5,
+        "conf-thresh":0.5,
+        "roi":{
+            "x":100,
+            "y":100,
+            "w":1720,
+            "h":880
+        }
+    }
+}

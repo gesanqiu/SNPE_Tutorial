@@ -86,3 +86,6 @@ add_subdirectory(yolov5s)
 # Compile test program
 add_subdirectory(test/test_image)
 add_subdirectory(test/test_video)
+
+# Compile standard algorithm module
+add_subdirectory(alg/yolov5s)
