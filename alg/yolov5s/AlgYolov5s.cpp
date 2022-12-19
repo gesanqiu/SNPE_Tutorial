@@ -9,7 +9,7 @@
  * @Author: Ricardo Lu<sheng.lu@thundercomm.com>
  * @Date: 2022-05-19 11:08:17
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-12-16 12:13:03
+ * @LastEditTime: 2022-12-16 08:14:52
  */
 
 //
@@ -92,7 +92,7 @@ static bool parse_args(AlgConfig& config, const std::string& data)
             }
 
             if (json_object_has_member(object, "model-config")) {
-                JsonObject* m = json_obejct_get_object_member(object, "model-config");
+                JsonObject* m = json_object_get_object_member(object, "model-config");
 
                 if (json_object_has_member(m, "model-path")) {
                     std::string p((const char*)json_object_get_string_member(m, "model-path"));
@@ -103,7 +103,7 @@ static bool parse_args(AlgConfig& config, const std::string& data)
                 if (json_object_has_member(m, "runtime")) {
                     std::string r((const char*)json_object_get_string_member(m, "runtime"));
                     TS_INFO_MSG_V("\truntime:%s", r.c_str());
-                    config.modelConfig.runtime = string2runtime(r);
+                    config.modelConfig.runtime = device2runtime(r);
                 }
 
                 if (json_object_has_member(m, "labels")) {
@@ -113,7 +113,7 @@ static bool parse_args(AlgConfig& config, const std::string& data)
                 }
 
                 if (json_object_has_member(m, "grids")) {
-                    int x = json_object_get_int_member(m, "grids");
+                    int x = json_object_get_int_member(m, "grids"); 
                     TS_INFO_MSG_V("\tgrids:%d", x);
                     config.modelConfig.grids = x;
                 }
@@ -128,7 +128,7 @@ static bool parse_args(AlgConfig& config, const std::string& data)
                     JsonArray* a = json_object_get_array_member(m, "input-layers");
 
                     for (size_t i = 0; i < json_array_get_length(a); ++i) {
-                        config.modelConfig.inputLayers.emplace_back(json_array_get_string_member(m, i));
+                        config.modelConfig.inputLayers.emplace_back(json_array_get_string_element(a, i));
                     }
                 }
 
@@ -136,7 +136,7 @@ static bool parse_args(AlgConfig& config, const std::string& data)
                     JsonArray* a = json_object_get_array_member(m, "output-layers");
 
                     for (size_t i = 0; i < json_array_get_length(a); ++i) {
-                        config.modelConfig.outputLayers.emplace_back(json_array_get_string_member(m, i));
+                        config.modelConfig.outputLayers.emplace_back(json_array_get_string_element(a, i));
                     }
                 }
 
@@ -144,7 +144,7 @@ static bool parse_args(AlgConfig& config, const std::string& data)
                     JsonArray* a = json_object_get_array_member(m, "output-tensors");
 
                     for (size_t i = 0; i < json_array_get_length(a); ++i) {
-                        config.modelConfig.outputTensors.emplace_back(json_array_get_string_member(m, i));
+                        config.modelConfig.outputTensors.emplace_back(json_array_get_string_element(a, i));
                     }
                 }
             }
