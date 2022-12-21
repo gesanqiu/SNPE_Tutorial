@@ -9,7 +9,7 @@
  * @Author: Ricardo Lu<sheng.lu@thundercomm.com>
  * @Date: 2022-05-19 11:08:17
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-12-16 08:14:52
+ * @LastEditTime: 2022-12-21 10:39:24
  */
 
 //
@@ -369,9 +369,10 @@ std::shared_ptr<TsJsonObject> algProc(
     std::shared_ptr<TsJsonObject> jo = std::make_shared<
         TsJsonObject>(results_to_json_object(results, a));
     results_to_osd_object(results, jo->GetOsdObject(), a);
+    jo->SetLevel(TsJsonObject::Level::WARNING);
+    jo->SetSnapPicture(true);
 
-    a->cb_put_result_(jo, data, a->cb_user_data_);
-    return nullptr;
+    return jo;
 }
 
 //
@@ -413,15 +414,7 @@ bool algSetCb(void* alg, TsPutResult cb, void* args)
 {
     // TS_INFO_MSG_V("algSetCb called");
 
-    AlgCore* a = static_cast<AlgCore*>(alg);
-    assert(a);
-
-    if (cb) {
-        a->cb_put_result_ = cb;
-        a->cb_user_data_ = args;
-    }
-
-    return true;
+    return false;
 }
 
 //
@@ -431,13 +424,5 @@ bool algSetCb2(void* alg, TsPutResults cb, void* args)
 {
     // TS_INFO_MSG_V("algSetCb2 called");
 
-    AlgCore* a = static_cast<AlgCore*>(alg);
-    assert(a);
-
-    if (cb) {
-        a->cb_put_results_ = cb;
-        a->cb_user_data_ = args;
-    }
-
-    return true;
+    return false;
 }
