@@ -1,5 +1,5 @@
 {
-    "model-path":"../model/yolov5s.dlc",
+    "model-path":"../model/yolov5s_v2.5.dlc",
     "runtime":"CPU",
     "labels":85,
     "grids":25200,

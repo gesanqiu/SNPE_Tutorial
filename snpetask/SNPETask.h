@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-17 20:28:01
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-07-12 08:58:26
+ * @LastEditTime: 2023-02-23 08:22:00
  */
 
 #ifndef __SNPE_TASK_H__
@@ -16,15 +16,14 @@
 #include <unordered_map>
 #include <string>
 
-#include "SNPE/SNPE.hpp"
-#include "SNPE/SNPEFactory.hpp"
-#include "SNPE/SNPEBuilder.hpp"
-#include "DlSystem/DlEnums.hpp"
-#include "DlSystem/DlError.hpp"
-#include "DlSystem/ITensorFactory.hpp"
-#include "DlSystem/IUserBufferFactory.hpp"
-#include "DlSystem/TensorShape.hpp"
-#include "DlContainer/IDlContainer.hpp"
+#include "SNPE/SNPE.h"
+#include "SNPE/SNPEUtil.h"
+#include "SNPE/SNPEBuilder.h"
+#include "DlSystem/DlVersion.h"
+#include "DlSystem/DlEnums.h"
+#include "DlSystem/DlError.h"
+#include "DlSystem/TensorShape.h"
+#include "DlContainer/DlContainer.h"
 
 #include "utils.h"
 
@@ -54,20 +53,22 @@ public:
 private:
     bool m_isInit = false;
 
-    std::unique_ptr<zdl::DlContainer::IDlContainer> m_container;
-    std::unique_ptr<zdl::SNPE::SNPE> m_snpe;
-    zdl::DlSystem::Runtime_t m_runtime;
-    zdl::DlSystem::StringList m_outputLayers;
+    Snpe_DlContainer_Handle_t m_container;
+    Snpe_SNPE_Handle_t m_snpe;
+    Snpe_Runtime_t m_runtime;
+    Snpe_RuntimeList_Handle_t m_runtimeList;
+    Snpe_StringList_Handle_t m_outputLayers;
 
     std::map<std::string, std::vector<size_t> > m_inputShapes;
     std::map<std::string, std::vector<size_t> > m_outputShapes;
 
-    std::vector<std::unique_ptr<zdl::DlSystem::IUserBuffer> > m_inputUserBuffers;
-    std::vector<std::unique_ptr<zdl::DlSystem::IUserBuffer> > m_outputUserBuffers;
-    zdl::DlSystem::UserBufferMap m_inputUserBufferMap;
-    zdl::DlSystem::UserBufferMap m_outputUserBufferMap;
-    std::unordered_map<std::string, float*> m_inputTensors;
-    std::unordered_map<std::string, float*> m_outputTensors;
+    std::vector<Snpe_IUserBuffer_Handle_t> m_inputUserBuffers;
+    std::vector<Snpe_IUserBuffer_Handle_t> m_outputUserBuffers;
+    Snpe_UserBufferMap_Handle_t m_inputUserBufferMap;
+    Snpe_UserBufferMap_Handle_t m_outputUserBufferMap;
+
+    std::unordered_map<std::string, std::vector<uint8_t>> m_inputTensors;
+    std::unordered_map<std::string, std::vector<uint8_t>> m_outputTensors;
 };
 
 }    // namespace snpetask
