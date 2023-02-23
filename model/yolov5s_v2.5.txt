@@ -1,0 +1,876 @@
+DLC info for: /home/zh/Downloads/snpe-2.5.0.4052/yolov5s.dlc
+Model Version: N/A
+Model Copyright:N/A
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Id  | Name        | Type           | Inputs                                  | Outputs                      | Out Dims     | Runtimes | Parameters                               |
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 0   | Conv_0      | Conv2d         | images (Float_32) [NW Input]            | input (Float_32)             | 1x320x320x32 | A D G C  | bias_op_name: model.0.conv.bias          |
+|     |             |                | model.0.conv.weight (Float_32)          |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.0.conv.bias (Float_32)            |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[2, 2], [2, 2]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [2, 2]                           |
+|     |             |                |                                         |                              |              |          | param count: 3k (0.0483%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 353M (4.31%)         |
+| 1   | Sigmoid_1   | Neuron         | input (Float_32)                        | onnx::Mul_123 (Float_32)     | 1x320x320x32 | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 2   | Mul_2       | Eltwise_Binary | input (Float_32)                        | onnx::Conv_124 (Float_32)    | 1x320x320x32 | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_123 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 3   | Conv_3      | Conv2d         | onnx::Conv_124 (Float_32)               | input.4 (Float_32)           | 1x160x160x64 | A D G C  | bias_op_name: model.1.conv.bias          |
+|     |             |                | model.1.conv.weight (Float_32)          |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.1.conv.bias (Float_32)            |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [2, 2]                           |
+|     |             |                |                                         |                              |              |          | param count: 18k (0.256%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 471M (5.74%)         |
+| 4   | Sigmoid_4   | Neuron         | input.4 (Float_32)                      | onnx::Mul_126 (Float_32)     | 1x160x160x64 | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 5   | Mul_5       | Eltwise_Binary | input.4 (Float_32)                      | onnx::Conv_127 (Float_32)    | 1x160x160x64 | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_126 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 6   | Conv_6      | Conv2d         | onnx::Conv_127 (Float_32)               | input.8 (Float_32)           | 1x160x160x32 | A D G C  | bias_op_name: model.2.cv1.conv.bias      |
+|     |             |                | model.2.cv1.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.2.cv1.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 2k (0.0288%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 7   | Sigmoid_7   | Neuron         | input.8 (Float_32)                      | onnx::Mul_129 (Float_32)     | 1x160x160x32 | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 8   | Mul_8       | Eltwise_Binary | input.8 (Float_32)                      | onnx::Conv_130 (Float_32)    | 1x160x160x32 | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_129 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 9   | Conv_9      | Conv2d         | onnx::Conv_130 (Float_32)               | input.12 (Float_32)          | 1x160x160x32 | A D G C  | bias_op_name: model.2.m.0.cv1.conv.bias  |
+|     |             |                | model.2.m.0.cv1.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.2.m.0.cv1.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 1k (0.0146%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 10  | Sigmoid_10  | Neuron         | input.12 (Float_32)                     | onnx::Mul_132 (Float_32)     | 1x160x160x32 | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 11  | Mul_11      | Eltwise_Binary | input.12 (Float_32)                     | onnx::Conv_133 (Float_32)    | 1x160x160x32 | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_132 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 12  | Conv_12     | Conv2d         | onnx::Conv_133 (Float_32)               | input.16 (Float_32)          | 1x160x160x32 | A D G C  | bias_op_name: model.2.m.0.cv2.conv.bias  |
+|     |             |                | model.2.m.0.cv2.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.2.m.0.cv2.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 9k (0.128%)                 |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 13  | Sigmoid_13  | Neuron         | input.16 (Float_32)                     | onnx::Mul_135 (Float_32)     | 1x160x160x32 | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 14  | Mul_14      | Eltwise_Binary | input.16 (Float_32)                     | onnx::Add_136 (Float_32)     | 1x160x160x32 | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_135 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 15  | Add_15      | Eltwise_Binary | onnx::Conv_130 (Float_32)               | onnx::Concat_137 (Float_32)  | 1x160x160x32 | A D G C  | eltwise_type: ElementWiseAdd             |
+|     |             |                | onnx::Add_136 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 16  | Conv_16     | Conv2d         | onnx::Conv_127 (Float_32)               | input.20 (Float_32)          | 1x160x160x32 | A D G C  | bias_op_name: model.2.cv2.conv.bias      |
+|     |             |                | model.2.cv2.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.2.cv2.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 2k (0.0288%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 17  | Sigmoid_17  | Neuron         | input.20 (Float_32)                     | onnx::Mul_139 (Float_32)     | 1x160x160x32 | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 18  | Mul_18      | Eltwise_Binary | input.20 (Float_32)                     | onnx::Concat_140 (Float_32)  | 1x160x160x32 | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_139 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 19  | Concat_19   | Concat         | onnx::Concat_137 (Float_32)             | input.24 (Float_32)          | 1x160x160x64 | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Concat_140 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 20  | Conv_20     | Conv2d         | input.24 (Float_32)                     | input.28 (Float_32)          | 1x160x160x64 | A D G C  | bias_op_name: model.2.cv3.conv.bias      |
+|     |             |                | model.2.cv3.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.2.cv3.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 4k (0.0576%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 21  | Sigmoid_21  | Neuron         | input.28 (Float_32)                     | onnx::Mul_143 (Float_32)     | 1x160x160x64 | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 22  | Mul_22      | Eltwise_Binary | input.28 (Float_32)                     | onnx::Conv_144 (Float_32)    | 1x160x160x64 | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_143 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 23  | Conv_23     | Conv2d         | onnx::Conv_144 (Float_32)               | input.32 (Float_32)          | 1x80x80x128  | A D G C  | bias_op_name: model.3.conv.bias          |
+|     |             |                | model.3.conv.weight (Float_32)          |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.3.conv.bias (Float_32)            |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [2, 2]                           |
+|     |             |                |                                         |                              |              |          | param count: 73k (1.02%)                 |
+|     |             |                |                                         |                              |              |          | MACs per inference: 471M (5.74%)         |
+| 24  | Sigmoid_24  | Neuron         | input.32 (Float_32)                     | onnx::Mul_146 (Float_32)     | 1x80x80x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 25  | Mul_25      | Eltwise_Binary | input.32 (Float_32)                     | onnx::Conv_147 (Float_32)    | 1x80x80x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_146 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 26  | Conv_26     | Conv2d         | onnx::Conv_147 (Float_32)               | input.36 (Float_32)          | 1x80x80x64   | A D G C  | bias_op_name: model.4.cv1.conv.bias      |
+|     |             |                | model.4.cv1.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.4.cv1.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 8k (0.114%)                 |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 27  | Sigmoid_27  | Neuron         | input.36 (Float_32)                     | onnx::Mul_149 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 28  | Mul_28      | Eltwise_Binary | input.36 (Float_32)                     | onnx::Conv_150 (Float_32)    | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_149 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 29  | Conv_29     | Conv2d         | onnx::Conv_150 (Float_32)               | input.40 (Float_32)          | 1x80x80x64   | A D G C  | bias_op_name: model.4.m.0.cv1.conv.bias  |
+|     |             |                | model.4.m.0.cv1.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.4.m.0.cv1.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 4k (0.0576%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 30  | Sigmoid_30  | Neuron         | input.40 (Float_32)                     | onnx::Mul_152 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 31  | Mul_31      | Eltwise_Binary | input.40 (Float_32)                     | onnx::Conv_153 (Float_32)    | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_152 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 32  | Conv_32     | Conv2d         | onnx::Conv_153 (Float_32)               | input.44 (Float_32)          | 1x80x80x64   | A D G C  | bias_op_name: model.4.m.0.cv2.conv.bias  |
+|     |             |                | model.4.m.0.cv2.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.4.m.0.cv2.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 36k (0.511%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 33  | Sigmoid_33  | Neuron         | input.44 (Float_32)                     | onnx::Mul_155 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 34  | Mul_34      | Eltwise_Binary | input.44 (Float_32)                     | onnx::Add_156 (Float_32)     | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_155 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 35  | Add_35      | Eltwise_Binary | onnx::Conv_150 (Float_32)               | input.48 (Float_32)          | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseAdd             |
+|     |             |                | onnx::Add_156 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 36  | Conv_36     | Conv2d         | input.48 (Float_32)                     | input.52 (Float_32)          | 1x80x80x64   | A D G C  | bias_op_name: model.4.m.1.cv1.conv.bias  |
+|     |             |                | model.4.m.1.cv1.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.4.m.1.cv1.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 4k (0.0576%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 37  | Sigmoid_37  | Neuron         | input.52 (Float_32)                     | onnx::Mul_159 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 38  | Mul_38      | Eltwise_Binary | input.52 (Float_32)                     | onnx::Conv_160 (Float_32)    | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_159 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 39  | Conv_39     | Conv2d         | onnx::Conv_160 (Float_32)               | input.56 (Float_32)          | 1x80x80x64   | A D G C  | bias_op_name: model.4.m.1.cv2.conv.bias  |
+|     |             |                | model.4.m.1.cv2.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.4.m.1.cv2.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 36k (0.511%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 40  | Sigmoid_40  | Neuron         | input.56 (Float_32)                     | onnx::Mul_162 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 41  | Mul_41      | Eltwise_Binary | input.56 (Float_32)                     | onnx::Add_163 (Float_32)     | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_162 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 42  | Add_42      | Eltwise_Binary | input.48 (Float_32)                     | onnx::Concat_164 (Float_32)  | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseAdd             |
+|     |             |                | onnx::Add_163 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 43  | Conv_43     | Conv2d         | onnx::Conv_147 (Float_32)               | input.60 (Float_32)          | 1x80x80x64   | A D G C  | bias_op_name: model.4.cv2.conv.bias      |
+|     |             |                | model.4.cv2.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.4.cv2.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 8k (0.114%)                 |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 44  | Sigmoid_44  | Neuron         | input.60 (Float_32)                     | onnx::Mul_166 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 45  | Mul_45      | Eltwise_Binary | input.60 (Float_32)                     | onnx::Concat_167 (Float_32)  | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_166 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 46  | Concat_46   | Concat         | onnx::Concat_164 (Float_32)             | input.64 (Float_32)          | 1x80x80x128  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Concat_167 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 47  | Conv_47     | Conv2d         | input.64 (Float_32)                     | input.68 (Float_32)          | 1x80x80x128  | A D G C  | bias_op_name: model.4.cv3.conv.bias      |
+|     |             |                | model.4.cv3.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.4.cv3.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 16k (0.229%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 48  | Sigmoid_48  | Neuron         | input.68 (Float_32)                     | onnx::Mul_170 (Float_32)     | 1x80x80x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 49  | Mul_49      | Eltwise_Binary | input.68 (Float_32)                     | onnx::Conv_171 (Float_32)    | 1x80x80x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_170 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 50  | Conv_50     | Conv2d         | onnx::Conv_171 (Float_32)               | input.72 (Float_32)          | 1x40x40x256  | A D G C  | bias_op_name: model.5.conv.bias          |
+|     |             |                | model.5.conv.weight (Float_32)          |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.5.conv.bias (Float_32)            |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [2, 2]                           |
+|     |             |                |                                         |                              |              |          | param count: 295k (4.08%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 471M (5.74%)         |
+| 51  | Sigmoid_51  | Neuron         | input.72 (Float_32)                     | onnx::Mul_173 (Float_32)     | 1x40x40x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 52  | Mul_52      | Eltwise_Binary | input.72 (Float_32)                     | onnx::Conv_174 (Float_32)    | 1x40x40x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_173 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 53  | Conv_53     | Conv2d         | onnx::Conv_174 (Float_32)               | input.76 (Float_32)          | 1x40x40x128  | A D G C  | bias_op_name: model.6.cv1.conv.bias      |
+|     |             |                | model.6.cv1.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.6.cv1.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 32k (0.455%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 54  | Sigmoid_54  | Neuron         | input.76 (Float_32)                     | onnx::Mul_176 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 55  | Mul_55      | Eltwise_Binary | input.76 (Float_32)                     | onnx::Conv_177 (Float_32)    | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_176 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 56  | Conv_56     | Conv2d         | onnx::Conv_177 (Float_32)               | input.80 (Float_32)          | 1x40x40x128  | A D G C  | bias_op_name: model.6.m.0.cv1.conv.bias  |
+|     |             |                | model.6.m.0.cv1.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.6.m.0.cv1.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 16k (0.229%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 57  | Sigmoid_57  | Neuron         | input.80 (Float_32)                     | onnx::Mul_179 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 58  | Mul_58      | Eltwise_Binary | input.80 (Float_32)                     | onnx::Conv_180 (Float_32)    | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_179 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 59  | Conv_59     | Conv2d         | onnx::Conv_180 (Float_32)               | input.84 (Float_32)          | 1x40x40x128  | A D G C  | bias_op_name: model.6.m.0.cv2.conv.bias  |
+|     |             |                | model.6.m.0.cv2.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.6.m.0.cv2.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 147k (2.04%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 60  | Sigmoid_60  | Neuron         | input.84 (Float_32)                     | onnx::Mul_182 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 61  | Mul_61      | Eltwise_Binary | input.84 (Float_32)                     | onnx::Add_183 (Float_32)     | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_182 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 62  | Add_62      | Eltwise_Binary | onnx::Conv_177 (Float_32)               | input.88 (Float_32)          | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseAdd             |
+|     |             |                | onnx::Add_183 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 63  | Conv_63     | Conv2d         | input.88 (Float_32)                     | input.92 (Float_32)          | 1x40x40x128  | A D G C  | bias_op_name: model.6.m.1.cv1.conv.bias  |
+|     |             |                | model.6.m.1.cv1.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.6.m.1.cv1.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 16k (0.229%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 64  | Sigmoid_64  | Neuron         | input.92 (Float_32)                     | onnx::Mul_186 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 65  | Mul_65      | Eltwise_Binary | input.92 (Float_32)                     | onnx::Conv_187 (Float_32)    | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_186 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 66  | Conv_66     | Conv2d         | onnx::Conv_187 (Float_32)               | input.96 (Float_32)          | 1x40x40x128  | A D G C  | bias_op_name: model.6.m.1.cv2.conv.bias  |
+|     |             |                | model.6.m.1.cv2.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.6.m.1.cv2.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 147k (2.04%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 67  | Sigmoid_67  | Neuron         | input.96 (Float_32)                     | onnx::Mul_189 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 68  | Mul_68      | Eltwise_Binary | input.96 (Float_32)                     | onnx::Add_190 (Float_32)     | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_189 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 69  | Add_69      | Eltwise_Binary | input.88 (Float_32)                     | input.100 (Float_32)         | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseAdd             |
+|     |             |                | onnx::Add_190 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 70  | Conv_70     | Conv2d         | input.100 (Float_32)                    | input.104 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.6.m.2.cv1.conv.bias  |
+|     |             |                | model.6.m.2.cv1.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.6.m.2.cv1.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 16k (0.229%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 71  | Sigmoid_71  | Neuron         | input.104 (Float_32)                    | onnx::Mul_193 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 72  | Mul_72      | Eltwise_Binary | input.104 (Float_32)                    | onnx::Conv_194 (Float_32)    | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_193 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 73  | Conv_73     | Conv2d         | onnx::Conv_194 (Float_32)               | input.108 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.6.m.2.cv2.conv.bias  |
+|     |             |                | model.6.m.2.cv2.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.6.m.2.cv2.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 147k (2.04%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 74  | Sigmoid_74  | Neuron         | input.108 (Float_32)                    | onnx::Mul_196 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 75  | Mul_75      | Eltwise_Binary | input.108 (Float_32)                    | onnx::Add_197 (Float_32)     | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_196 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 76  | Add_76      | Eltwise_Binary | input.100 (Float_32)                    | onnx::Concat_198 (Float_32)  | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseAdd             |
+|     |             |                | onnx::Add_197 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 77  | Conv_77     | Conv2d         | onnx::Conv_174 (Float_32)               | input.112 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.6.cv2.conv.bias      |
+|     |             |                | model.6.cv2.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.6.cv2.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 32k (0.455%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 78  | Sigmoid_78  | Neuron         | input.112 (Float_32)                    | onnx::Mul_200 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 79  | Mul_79      | Eltwise_Binary | input.112 (Float_32)                    | onnx::Concat_201 (Float_32)  | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_200 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 80  | Concat_80   | Concat         | onnx::Concat_198 (Float_32)             | input.116 (Float_32)         | 1x40x40x256  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Concat_201 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 81  | Conv_81     | Conv2d         | input.116 (Float_32)                    | input.120 (Float_32)         | 1x40x40x256  | A D G C  | bias_op_name: model.6.cv3.conv.bias      |
+|     |             |                | model.6.cv3.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.6.cv3.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 65k (0.911%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 82  | Sigmoid_82  | Neuron         | input.120 (Float_32)                    | onnx::Mul_204 (Float_32)     | 1x40x40x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 83  | Mul_83      | Eltwise_Binary | input.120 (Float_32)                    | onnx::Conv_205 (Float_32)    | 1x40x40x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_204 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 84  | Conv_84     | Conv2d         | onnx::Conv_205 (Float_32)               | input.124 (Float_32)         | 1x20x20x512  | A D G C  | bias_op_name: model.7.conv.bias          |
+|     |             |                | model.7.conv.weight (Float_32)          |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.7.conv.bias (Float_32)            |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [2, 2]                           |
+|     |             |                |                                         |                              |              |          | param count: 1M (16.3%)                  |
+|     |             |                |                                         |                              |              |          | MACs per inference: 471M (5.74%)         |
+| 85  | Sigmoid_85  | Neuron         | input.124 (Float_32)                    | onnx::Mul_207 (Float_32)     | 1x20x20x512  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 86  | Mul_86      | Eltwise_Binary | input.124 (Float_32)                    | onnx::Conv_208 (Float_32)    | 1x20x20x512  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_207 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 87  | Conv_87     | Conv2d         | onnx::Conv_208 (Float_32)               | input.128 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.8.cv1.conv.bias      |
+|     |             |                | model.8.cv1.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.8.cv1.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 131k (1.82%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 88  | Sigmoid_88  | Neuron         | input.128 (Float_32)                    | onnx::Mul_210 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 89  | Mul_89      | Eltwise_Binary | input.128 (Float_32)                    | onnx::Conv_211 (Float_32)    | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_210 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 90  | Conv_90     | Conv2d         | onnx::Conv_211 (Float_32)               | input.132 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.8.m.0.cv1.conv.bias  |
+|     |             |                | model.8.m.0.cv1.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.8.m.0.cv1.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 65k (0.911%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 91  | Sigmoid_91  | Neuron         | input.132 (Float_32)                    | onnx::Mul_213 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 92  | Mul_92      | Eltwise_Binary | input.132 (Float_32)                    | onnx::Conv_214 (Float_32)    | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_213 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 93  | Conv_93     | Conv2d         | onnx::Conv_214 (Float_32)               | input.136 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.8.m.0.cv2.conv.bias  |
+|     |             |                | model.8.m.0.cv2.conv.weight (Float_32)  |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.8.m.0.cv2.conv.bias (Float_32)    |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 590k (8.17%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 94  | Sigmoid_94  | Neuron         | input.136 (Float_32)                    | onnx::Mul_216 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 95  | Mul_95      | Eltwise_Binary | input.136 (Float_32)                    | onnx::Add_217 (Float_32)     | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_216 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 96  | Add_96      | Eltwise_Binary | onnx::Conv_211 (Float_32)               | onnx::Concat_218 (Float_32)  | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseAdd             |
+|     |             |                | onnx::Add_217 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 97  | Conv_97     | Conv2d         | onnx::Conv_208 (Float_32)               | input.140 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.8.cv2.conv.bias      |
+|     |             |                | model.8.cv2.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.8.cv2.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 131k (1.82%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 98  | Sigmoid_98  | Neuron         | input.140 (Float_32)                    | onnx::Mul_220 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 99  | Mul_99      | Eltwise_Binary | input.140 (Float_32)                    | onnx::Concat_221 (Float_32)  | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_220 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 100 | Concat_100  | Concat         | onnx::Concat_218 (Float_32)             | input.144 (Float_32)         | 1x20x20x512  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Concat_221 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 101 | Conv_101    | Conv2d         | input.144 (Float_32)                    | input.148 (Float_32)         | 1x20x20x512  | A D G C  | bias_op_name: model.8.cv3.conv.bias      |
+|     |             |                | model.8.cv3.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.8.cv3.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 262k (3.63%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 102 | Sigmoid_102 | Neuron         | input.148 (Float_32)                    | onnx::Mul_224 (Float_32)     | 1x20x20x512  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 103 | Mul_103     | Eltwise_Binary | input.148 (Float_32)                    | onnx::Conv_225 (Float_32)    | 1x20x20x512  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_224 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 104 | Conv_104    | Conv2d         | onnx::Conv_225 (Float_32)               | input.152 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.9.cv1.conv.bias      |
+|     |             |                | model.9.cv1.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.9.cv1.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 131k (1.82%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 105 | Sigmoid_105 | Neuron         | input.152 (Float_32)                    | onnx::Mul_227 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 106 | Mul_106     | Eltwise_Binary | input.152 (Float_32)                    | onnx::MaxPool_228 (Float_32) | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_227 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 107 | MaxPool_107 | Pool           | onnx::MaxPool_228 (Float_32)            | onnx::MaxPool_229 (Float_32) | 1x20x20x256  | A D G C  | filter_size: [5, 5]                      |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[2, 2], [2, 2]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | pool_type: PoolMax2d                     |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+| 108 | MaxPool_108 | Pool           | onnx::MaxPool_229 (Float_32)            | onnx::MaxPool_230 (Float_32) | 1x20x20x256  | A D G C  | filter_size: [5, 5]                      |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[2, 2], [2, 2]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | pool_type: PoolMax2d                     |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+| 109 | MaxPool_109 | Pool           | onnx::MaxPool_230 (Float_32)            | onnx::Concat_231 (Float_32)  | 1x20x20x256  | A D G C  | filter_size: [5, 5]                      |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[2, 2], [2, 2]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | pool_type: PoolMax2d                     |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+| 110 | Concat_110  | Concat         | onnx::MaxPool_228 (Float_32)            | input.156 (Float_32)         | 1x20x20x1024 | A D G C  | axis: 3                                  |
+|     |             |                | onnx::MaxPool_229 (Float_32)            |                              |              |          | packageName: qti.aisw                    |
+|     |             |                | onnx::MaxPool_230 (Float_32)            |                              |              |          |                                          |
+|     |             |                | onnx::Concat_231 (Float_32)             |                              |              |          |                                          |
+| 111 | Conv_111    | Conv2d         | input.156 (Float_32)                    | input.160 (Float_32)         | 1x20x20x512  | A D G C  | bias_op_name: model.9.cv2.conv.bias      |
+|     |             |                | model.9.cv2.conv.weight (Float_32)      |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.9.cv2.conv.bias (Float_32)        |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 524k (7.26%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 209M (2.55%)         |
+| 112 | Sigmoid_112 | Neuron         | input.160 (Float_32)                    | onnx::Mul_234 (Float_32)     | 1x20x20x512  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 113 | Mul_113     | Eltwise_Binary | input.160 (Float_32)                    | onnx::Conv_235 (Float_32)    | 1x20x20x512  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_234 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 114 | Conv_114    | Conv2d         | onnx::Conv_235 (Float_32)               | input.164 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.10.conv.bias         |
+|     |             |                | model.10.conv.weight (Float_32)         |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.10.conv.bias (Float_32)           |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 131k (1.82%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 115 | Sigmoid_115 | Neuron         | input.164 (Float_32)                    | onnx::Mul_237 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 116 | Mul_116     | Eltwise_Binary | input.164 (Float_32)                    | onnx::Resize_238 (Float_32)  | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_237 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 117 | Resize_118  | Resize         | onnx::Resize_238 (Float_32)             | onnx::Concat_243 (Float_32)  | 1x40x40x256  | A D G C  | align_corners: False                     |
+|     |             |                |                                         |                              |              |          | half_pixel_centers: False                |
+|     |             |                |                                         |                              |              |          | interpolation_mode: 0                    |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | scale_height: 2                          |
+|     |             |                |                                         |                              |              |          | scale_width: 2                           |
+|     |             |                |                                         |                              |              |          | transformation_mode: 3                   |
+| 118 | Concat_119  | Concat         | onnx::Concat_243 (Float_32)             | input.168 (Float_32)         | 1x40x40x512  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Conv_205 (Float_32)               |                              |              |          | packageName: qti.aisw                    |
+| 119 | Conv_120    | Conv2d         | input.168 (Float_32)                    | input.172 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.13.cv1.conv.bias     |
+|     |             |                | model.13.cv1.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.13.cv1.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 65k (0.909%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 120 | Sigmoid_121 | Neuron         | input.172 (Float_32)                    | onnx::Mul_246 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 121 | Mul_122     | Eltwise_Binary | input.172 (Float_32)                    | onnx::Conv_247 (Float_32)    | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_246 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 122 | Conv_123    | Conv2d         | onnx::Conv_247 (Float_32)               | input.176 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.13.m.0.cv1.conv.bias |
+|     |             |                | model.13.m.0.cv1.conv.weight (Float_32) |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.13.m.0.cv1.conv.bias (Float_32)   |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 16k (0.229%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 123 | Sigmoid_124 | Neuron         | input.176 (Float_32)                    | onnx::Mul_249 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 124 | Mul_125     | Eltwise_Binary | input.176 (Float_32)                    | onnx::Conv_250 (Float_32)    | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_249 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 125 | Conv_126    | Conv2d         | onnx::Conv_250 (Float_32)               | input.180 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.13.m.0.cv2.conv.bias |
+|     |             |                | model.13.m.0.cv2.conv.weight (Float_32) |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.13.m.0.cv2.conv.bias (Float_32)   |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 147k (2.04%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 126 | Sigmoid_127 | Neuron         | input.180 (Float_32)                    | onnx::Mul_252 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 127 | Mul_128     | Eltwise_Binary | input.180 (Float_32)                    | onnx::Concat_253 (Float_32)  | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_252 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 128 | Conv_129    | Conv2d         | input.168 (Float_32)                    | input.184 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.13.cv2.conv.bias     |
+|     |             |                | model.13.cv2.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.13.cv2.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 65k (0.909%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 129 | Sigmoid_130 | Neuron         | input.184 (Float_32)                    | onnx::Mul_255 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 130 | Mul_131     | Eltwise_Binary | input.184 (Float_32)                    | onnx::Concat_256 (Float_32)  | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_255 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 131 | Concat_132  | Concat         | onnx::Concat_253 (Float_32)             | input.188 (Float_32)         | 1x40x40x256  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Concat_256 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 132 | Conv_133    | Conv2d         | input.188 (Float_32)                    | input.192 (Float_32)         | 1x40x40x256  | A D G C  | bias_op_name: model.13.cv3.conv.bias     |
+|     |             |                | model.13.cv3.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.13.cv3.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 65k (0.911%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 133 | Sigmoid_134 | Neuron         | input.192 (Float_32)                    | onnx::Mul_259 (Float_32)     | 1x40x40x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 134 | Mul_135     | Eltwise_Binary | input.192 (Float_32)                    | onnx::Conv_260 (Float_32)    | 1x40x40x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_259 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 135 | Conv_136    | Conv2d         | onnx::Conv_260 (Float_32)               | input.196 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.14.conv.bias         |
+|     |             |                | model.14.conv.weight (Float_32)         |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.14.conv.bias (Float_32)           |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 32k (0.455%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 136 | Sigmoid_137 | Neuron         | input.196 (Float_32)                    | onnx::Mul_262 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 137 | Mul_138     | Eltwise_Binary | input.196 (Float_32)                    | onnx::Resize_263 (Float_32)  | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_262 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 138 | Resize_140  | Resize         | onnx::Resize_263 (Float_32)             | onnx::Concat_268 (Float_32)  | 1x80x80x128  | A D G C  | align_corners: False                     |
+|     |             |                |                                         |                              |              |          | half_pixel_centers: False                |
+|     |             |                |                                         |                              |              |          | interpolation_mode: 0                    |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | scale_height: 2                          |
+|     |             |                |                                         |                              |              |          | scale_width: 2                           |
+|     |             |                |                                         |                              |              |          | transformation_mode: 3                   |
+| 139 | Concat_141  | Concat         | onnx::Concat_268 (Float_32)             | input.200 (Float_32)         | 1x80x80x256  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Conv_171 (Float_32)               |                              |              |          | packageName: qti.aisw                    |
+| 140 | Conv_142    | Conv2d         | input.200 (Float_32)                    | input.204 (Float_32)         | 1x80x80x64   | A D G C  | bias_op_name: model.17.cv1.conv.bias     |
+|     |             |                | model.17.cv1.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.17.cv1.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 16k (0.228%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 141 | Sigmoid_143 | Neuron         | input.204 (Float_32)                    | onnx::Mul_271 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 142 | Mul_144     | Eltwise_Binary | input.204 (Float_32)                    | onnx::Conv_272 (Float_32)    | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_271 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 143 | Conv_145    | Conv2d         | onnx::Conv_272 (Float_32)               | input.208 (Float_32)         | 1x80x80x64   | A D G C  | bias_op_name: model.17.m.0.cv1.conv.bias |
+|     |             |                | model.17.m.0.cv1.conv.weight (Float_32) |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.17.m.0.cv1.conv.bias (Float_32)   |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 4k (0.0576%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 144 | Sigmoid_146 | Neuron         | input.208 (Float_32)                    | onnx::Mul_274 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 145 | Mul_147     | Eltwise_Binary | input.208 (Float_32)                    | onnx::Conv_275 (Float_32)    | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_274 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 146 | Conv_148    | Conv2d         | onnx::Conv_275 (Float_32)               | input.212 (Float_32)         | 1x80x80x64   | A D G C  | bias_op_name: model.17.m.0.cv2.conv.bias |
+|     |             |                | model.17.m.0.cv2.conv.weight (Float_32) |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.17.m.0.cv2.conv.bias (Float_32)   |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 36k (0.511%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 147 | Sigmoid_149 | Neuron         | input.212 (Float_32)                    | onnx::Mul_277 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 148 | Mul_150     | Eltwise_Binary | input.212 (Float_32)                    | onnx::Concat_278 (Float_32)  | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_277 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 149 | Conv_151    | Conv2d         | input.200 (Float_32)                    | input.216 (Float_32)         | 1x80x80x64   | A D G C  | bias_op_name: model.17.cv2.conv.bias     |
+|     |             |                | model.17.cv2.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.17.cv2.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 16k (0.228%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 150 | Sigmoid_152 | Neuron         | input.216 (Float_32)                    | onnx::Mul_280 (Float_32)     | 1x80x80x64   | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 151 | Mul_153     | Eltwise_Binary | input.216 (Float_32)                    | onnx::Concat_281 (Float_32)  | 1x80x80x64   | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_280 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 152 | Concat_154  | Concat         | onnx::Concat_278 (Float_32)             | input.220 (Float_32)         | 1x80x80x128  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Concat_281 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 153 | Conv_155    | Conv2d         | input.220 (Float_32)                    | input.224 (Float_32)         | 1x80x80x128  | A D G C  | bias_op_name: model.17.cv3.conv.bias     |
+|     |             |                | model.17.cv3.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.17.cv3.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 16k (0.229%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 154 | Sigmoid_156 | Neuron         | input.224 (Float_32)                    | onnx::Mul_284 (Float_32)     | 1x80x80x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 155 | Mul_157     | Eltwise_Binary | input.224 (Float_32)                    | onnx::Conv_285 (Float_32)    | 1x80x80x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_284 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 156 | Conv_158    | Conv2d         | onnx::Conv_285 (Float_32)               | input.228 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.18.conv.bias         |
+|     |             |                | model.18.conv.weight (Float_32)         |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.18.conv.bias (Float_32)           |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [2, 2]                           |
+|     |             |                |                                         |                              |              |          | param count: 147k (2.04%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 157 | Sigmoid_159 | Neuron         | input.228 (Float_32)                    | onnx::Mul_287 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 158 | Mul_160     | Eltwise_Binary | input.228 (Float_32)                    | onnx::Concat_288 (Float_32)  | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_287 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 159 | Concat_161  | Concat         | onnx::Concat_288 (Float_32)             | input.232 (Float_32)         | 1x40x40x256  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Resize_263 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 160 | Conv_162    | Conv2d         | input.232 (Float_32)                    | input.236 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.20.cv1.conv.bias     |
+|     |             |                | model.20.cv1.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.20.cv1.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 32k (0.455%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 161 | Sigmoid_163 | Neuron         | input.236 (Float_32)                    | onnx::Mul_291 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 162 | Mul_164     | Eltwise_Binary | input.236 (Float_32)                    | onnx::Conv_292 (Float_32)    | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_291 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 163 | Conv_165    | Conv2d         | onnx::Conv_292 (Float_32)               | input.240 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.20.m.0.cv1.conv.bias |
+|     |             |                | model.20.m.0.cv1.conv.weight (Float_32) |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.20.m.0.cv1.conv.bias (Float_32)   |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 16k (0.229%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 164 | Sigmoid_166 | Neuron         | input.240 (Float_32)                    | onnx::Mul_294 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 165 | Mul_167     | Eltwise_Binary | input.240 (Float_32)                    | onnx::Conv_295 (Float_32)    | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_294 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 166 | Conv_168    | Conv2d         | onnx::Conv_295 (Float_32)               | input.244 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.20.m.0.cv2.conv.bias |
+|     |             |                | model.20.m.0.cv2.conv.weight (Float_32) |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.20.m.0.cv2.conv.bias (Float_32)   |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 147k (2.04%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 167 | Sigmoid_169 | Neuron         | input.244 (Float_32)                    | onnx::Mul_297 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 168 | Mul_170     | Eltwise_Binary | input.244 (Float_32)                    | onnx::Concat_298 (Float_32)  | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_297 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 169 | Conv_171    | Conv2d         | input.232 (Float_32)                    | input.248 (Float_32)         | 1x40x40x128  | A D G C  | bias_op_name: model.20.cv2.conv.bias     |
+|     |             |                | model.20.cv2.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.20.cv2.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 32k (0.455%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 170 | Sigmoid_172 | Neuron         | input.248 (Float_32)                    | onnx::Mul_300 (Float_32)     | 1x40x40x128  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 171 | Mul_173     | Eltwise_Binary | input.248 (Float_32)                    | onnx::Concat_301 (Float_32)  | 1x40x40x128  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_300 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 172 | Concat_174  | Concat         | onnx::Concat_298 (Float_32)             | input.252 (Float_32)         | 1x40x40x256  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Concat_301 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 173 | Conv_175    | Conv2d         | input.252 (Float_32)                    | input.256 (Float_32)         | 1x40x40x256  | A D G C  | bias_op_name: model.20.cv3.conv.bias     |
+|     |             |                | model.20.cv3.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.20.cv3.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 65k (0.911%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 174 | Sigmoid_176 | Neuron         | input.256 (Float_32)                    | onnx::Mul_304 (Float_32)     | 1x40x40x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 175 | Mul_177     | Eltwise_Binary | input.256 (Float_32)                    | onnx::Conv_305 (Float_32)    | 1x40x40x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_304 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 176 | Conv_178    | Conv2d         | onnx::Conv_305 (Float_32)               | input.260 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.21.conv.bias         |
+|     |             |                | model.21.conv.weight (Float_32)         |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.21.conv.bias (Float_32)           |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [2, 2]                           |
+|     |             |                |                                         |                              |              |          | param count: 590k (8.17%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 177 | Sigmoid_179 | Neuron         | input.260 (Float_32)                    | onnx::Mul_307 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 178 | Mul_180     | Eltwise_Binary | input.260 (Float_32)                    | onnx::Concat_308 (Float_32)  | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_307 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 179 | Concat_181  | Concat         | onnx::Concat_308 (Float_32)             | input.264 (Float_32)         | 1x20x20x512  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Resize_238 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 180 | Conv_182    | Conv2d         | input.264 (Float_32)                    | input.268 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.23.cv1.conv.bias     |
+|     |             |                | model.23.cv1.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.23.cv1.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 131k (1.82%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 181 | Sigmoid_183 | Neuron         | input.268 (Float_32)                    | onnx::Mul_311 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 182 | Mul_184     | Eltwise_Binary | input.268 (Float_32)                    | onnx::Conv_312 (Float_32)    | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_311 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 183 | Conv_185    | Conv2d         | onnx::Conv_312 (Float_32)               | input.272 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.23.m.0.cv1.conv.bias |
+|     |             |                | model.23.m.0.cv1.conv.weight (Float_32) |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.23.m.0.cv1.conv.bias (Float_32)   |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 65k (0.911%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 26M (0.319%)         |
+| 184 | Sigmoid_186 | Neuron         | input.272 (Float_32)                    | onnx::Mul_314 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 185 | Mul_187     | Eltwise_Binary | input.272 (Float_32)                    | onnx::Conv_315 (Float_32)    | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_314 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 186 | Conv_188    | Conv2d         | onnx::Conv_315 (Float_32)               | input.276 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.23.m.0.cv2.conv.bias |
+|     |             |                | model.23.m.0.cv2.conv.weight (Float_32) |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.23.m.0.cv2.conv.bias (Float_32)   |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[1, 1], [1, 1]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 590k (8.17%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 235M (2.87%)         |
+| 187 | Sigmoid_189 | Neuron         | input.276 (Float_32)                    | onnx::Mul_317 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 188 | Mul_190     | Eltwise_Binary | input.276 (Float_32)                    | onnx::Concat_318 (Float_32)  | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_317 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 189 | Conv_191    | Conv2d         | input.264 (Float_32)                    | input.280 (Float_32)         | 1x20x20x256  | A D G C  | bias_op_name: model.23.cv2.conv.bias     |
+|     |             |                | model.23.cv2.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.23.cv2.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 131k (1.82%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.638%)         |
+| 190 | Sigmoid_192 | Neuron         | input.280 (Float_32)                    | onnx::Mul_320 (Float_32)     | 1x20x20x256  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 191 | Mul_193     | Eltwise_Binary | input.280 (Float_32)                    | onnx::Concat_321 (Float_32)  | 1x20x20x256  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_320 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 192 | Concat_194  | Concat         | onnx::Concat_318 (Float_32)             | input.284 (Float_32)         | 1x20x20x512  | A D G C  | axis: 3                                  |
+|     |             |                | onnx::Concat_321 (Float_32)             |                              |              |          | packageName: qti.aisw                    |
+| 193 | Conv_195    | Conv2d         | input.284 (Float_32)                    | input.288 (Float_32)         | 1x20x20x512  | A D G C  | bias_op_name: model.23.cv3.conv.bias     |
+|     |             |                | model.23.cv3.conv.weight (Float_32)     |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.23.cv3.conv.bias (Float_32)       |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 262k (3.63%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.28%)         |
+| 194 | Sigmoid_196 | Neuron         | input.288 (Float_32)                    | onnx::Mul_324 (Float_32)     | 1x20x20x512  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 195 | Mul_197     | Eltwise_Binary | input.288 (Float_32)                    | onnx::Conv_325 (Float_32)    | 1x20x20x512  | A D G C  | eltwise_type: ElementWiseMultiply        |
+|     |             |                | onnx::Mul_324 (Float_32)                |                              |              |          | packageName: qti.aisw                    |
+| 196 | Conv_198    | Conv2d         | onnx::Conv_285 (Float_32)               | onnx::Sigmoid_326 (Float_32) | 1x80x80x255  | A D G C  | bias_op_name: model.24.m.0.bias          |
+|     |             |                | model.24.m.0.weight (Float_32)          |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.24.m.0.bias (Float_32)            |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 32k (0.455%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 208M (2.54%)         |
+| 197 | Sigmoid_199 | Neuron         | onnx::Sigmoid_326 (Float_32)            | output (Float_32)            | 1x80x80x255  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 198 | Conv_200    | Conv2d         | onnx::Conv_305 (Float_32)               | onnx::Sigmoid_328 (Float_32) | 1x40x40x255  | A D G C  | bias_op_name: model.24.m.1.bias          |
+|     |             |                | model.24.m.1.weight (Float_32)          |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.24.m.1.bias (Float_32)            |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 65k (0.907%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 104M (1.27%)         |
+| 199 | Sigmoid_201 | Neuron         | onnx::Sigmoid_328 (Float_32)            | 329 (Float_32)               | 1x40x40x255  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+| 200 | Conv_202    | Conv2d         | onnx::Conv_325 (Float_32)               | onnx::Sigmoid_330 (Float_32) | 1x20x20x255  | A D G C  | bias_op_name: model.24.m.2.bias          |
+|     |             |                | model.24.m.2.weight (Float_32)          |                              |              |          | dilation: [1, 1]                         |
+|     |             |                | model.24.m.2.bias (Float_32)            |                              |              |          | group: 1                                 |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+|     |             |                |                                         |                              |              |          | pad_amount: [[0, 0], [0, 0]]             |
+|     |             |                |                                         |                              |              |          | padding_size_strategy: 5                 |
+|     |             |                |                                         |                              |              |          | stride: [1, 1]                           |
+|     |             |                |                                         |                              |              |          | param count: 130k (1.81%)                |
+|     |             |                |                                         |                              |              |          | MACs per inference: 52M (0.636%)         |
+| 201 | Sigmoid_203 | Neuron         | onnx::Sigmoid_330 (Float_32)            | 331 (Float_32)               | 1x20x20x255  | A D G C  | neuron_type: Sigmoid                     |
+|     |             |                |                                         |                              |              |          | packageName: qti.aisw                    |
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Note: The supported runtimes column assumes a processor target of Snapdragon 855
+Key : A:AIP
+      D:DSP
+      G:GPU
+      C:CPU
+
+---------------------------------------
+| Input Name | Dimensions  | Type     |
+---------------------------------------
+| images     | 1,640,640,3 | Float_32 |
+---------------------------------------
+
+Total parameters: 7225885 (27 MB assuming single precision float)
+Total MACs per inference: 8216M (100%)
+Converter command: snpe-onnx-to-dlc adjust_nms_features_dims=True align_matmul_ranks=True batch=None copyright_file=None custom_io= custom_op_config_paths=None debug=-1 define_symbol=None disable_batchnorm_folding=False dry_run=None dumpIR=False dump_custom_io_config_template= dump_inferred_model=False dump_value_info=False enable_strict_validation=False expand_gru_op_structure=True extract_color_transform=True float_bw=32 force_prune_cast_ops=False handle_gather_negative_indices=True inject_cast_for_gather=True input_dim=None input_dtype=[] input_encoding=[] input_layout=[] input_type=[] keep_disconnected_nodes=False keep_int64_inputs=False keep_quant_nodes=False match_caffe_ssd_to_tf=True model_version=None no_simplification=False op_package_lib= out_names=['output', '329', '331', 'onnx::Sigmoid_326', 'onnx::Sigmoid_328', 'onnx::Sigmoid_330'] package_name=None perform_axes_to_spatial_first_order=True prepare_inputs_as_params=False preprocess_lstm_ops=True preprocess_roi_pool_inputs=True quantization_overrides= squash_box_decoder=True unroll_gru_time_steps=True unroll_lstm_time_steps=True use_convert_quantization_nodes=False validation_target=[]
+Quantizer command: N/A
+DLC created with converter version: 2.5.0.4052
+Ops used by DLC: Concat, Conv2d, Eltwise_Binary, Neuron, Pool, Resize
+Est. Steady-State Memory Needed to Run: 379.8 MiB
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
