@@ -10,7 +10,8 @@ import argparse
 import numpy as np
 import os
 
-from PIL import Image
+from PIL import Image, ImageOps
+
 
 RESIZE_METHOD_ANTIALIAS = "antialias"
 RESIZE_METHOD_BILINEAR  = "bilinear"
@@ -75,22 +76,25 @@ def __resize_square_to_jpg(src, dst, width, height, resize_type):
     src_img = Image.open(src)
     # If black and white image, convert to rgb (all 3 channels the same)
     if len(np.shape(src_img)) == 2: src_img = src_img.convert(mode = 'RGB')
-    # center crop to square
+
     w, h = src_img.size
-    short_dim = min(h, w)
-    crop_coord = (
-        (w - short_dim) / 2,
-        (h - short_dim) / 2,
-        (w + short_dim) / 2,
-        (h + short_dim) / 2
-    )
-    img = src_img.crop(crop_coord)
-    # resize to inceptionv3 size
+    rho = min(width / w, height / h)
+    w, h = int(w * rho), int(h * rho)
     if resize_type == RESIZE_METHOD_BILINEAR :
-        dst_img = img.resize((width, height), Image.BILINEAR)
+        dst_img = src_img.resize((w, h), Image.BILINEAR)
     else :
-        dst_img = img.resize((width, height), Image.ANTIALIAS)
+        dst_img = src_img.resize((w, h), Image.ANTIALIAS)
+
     # save output - save determined from file extension
+    left_pad, top_pad, right_pad, bottom_pad = 0, 0, 0, 0
+
+    if w == width:
+        top_pad = (height - h)
+    else:
+        left_pad = (width - w)
+
+    padding = (left_pad, top_pad, right_pad, bottom_pad)
+    dst_img = ImageOps.expand(dst_img, padding)
     dst_img.save(dst)
     return 0
 
