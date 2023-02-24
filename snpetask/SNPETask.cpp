@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-18 09:48:36
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2023-02-23 09:07:57
+ * @LastEditTime: 2023-02-24 15:08:41
  */
 
 
@@ -93,6 +93,9 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
         case DSP:
             m_runtime = SNPE_RUNTIME_DSP;
             break;
+        case DSP_FIXED8:
+            m_runtime = SNPE_RUNTIME_DSP_FIXED8_TF;
+            break;
         case AIP:
             m_runtime = SNPE_RUNTIME_AIP_FIXED8_TF;
             break;
@@ -150,8 +153,8 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
         }
         m_inputShapes.emplace(name, tensorShape);
 
-        size_t bufferElementSize = Snpe_IBufferAttributes_GetElementSize(bufferAttributesOptHandle);
-        createUserBuffer(m_inputUserBufferMap, m_inputTensors, m_inputUserBuffers, bufferShapeHandle, name, bufferElementSize);
+        // size_t bufferElementSize = Snpe_IBufferAttributes_GetElementSize(bufferAttributesOptHandle);
+        createUserBuffer(m_inputUserBufferMap, m_inputTensors, m_inputUserBuffers, bufferShapeHandle, name, sizeof(float));
 
         Snpe_IBufferAttributes_Delete(bufferAttributesOptHandle);
         Snpe_TensorShape_Delete(bufferShapeHandle);
@@ -181,8 +184,8 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
         }
         m_outputShapes.emplace(name, tensorShape);
 
-        size_t bufferElementSize = Snpe_IBufferAttributes_GetElementSize(bufferAttributesOptHandle);
-        createUserBuffer(m_outputUserBufferMap, m_outputTensors, m_outputUserBuffers, bufferShapeHandle, name, bufferElementSize);
+        // size_t bufferElementSize = Snpe_IBufferAttributes_GetElementSize(bufferAttributesOptHandle);
+        createUserBuffer(m_outputUserBufferMap, m_outputTensors, m_outputUserBuffers, bufferShapeHandle, name, sizeof(float));
 
         Snpe_IBufferAttributes_Delete(bufferAttributesOptHandle);
         Snpe_TensorShape_Delete(bufferShapeHandle);

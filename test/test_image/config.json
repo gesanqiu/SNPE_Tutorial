@@ -1,6 +1,6 @@
 {
-    "model-path":"../model/yolov5s_v2.5.dlc",
-    "runtime":"CPU",
+    "model-path":"../model/yolov5s_v2.5_quantized.dlc",
+    "runtime":"DSP",
     "labels":85,
     "grids":25200,
     "input-layers":[
