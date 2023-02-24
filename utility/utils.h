@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-07-09 13:07:37
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-10-10 12:25:23
+ * @LastEditTime: 2023-02-24 15:12:34
  */
 #pragma once
 
@@ -26,6 +26,7 @@ typedef enum runtime {
     GPU,
     GPU_FLOAT16,
     DSP,
+    DSP_FIXED8,
     AIP
 }runtime_t;
 
@@ -41,4 +42,12 @@ static float calcIoU(const cv::Rect& a, const cv::Rect& b) {
         (a.width + 1.) * (a.height + 1.) +
         (b.width + 1.) * (b.height + 1.) - intersection;
     return intersection / unio;
+}
+
+static int64_t GetTimeStamp_ms()
+{
+    std::chrono::time_point<std::chrono::system_clock,std::chrono::milliseconds> tp = 
+    std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
+    std::time_t timestamp =  tp.time_since_epoch().count();
+    return timestamp;
 }

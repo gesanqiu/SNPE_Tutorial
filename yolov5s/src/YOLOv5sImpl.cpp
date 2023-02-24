@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-17 20:28:01
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-12-15 05:05:53
+ * @LastEditTime: 2023-02-24 15:16:01
  */
 
 #include <math.h>
@@ -114,18 +114,19 @@ bool ObjectDetectionImpl::Detect(const cv::Mat& image,
         else PreProcess(roi_image);
     }
 
+    int64_t start = GetTimeStamp_ms();
     if (!m_task->execute()) {
         LOG_ERROR("SNPETask execute failed.");
         return false;
     }
 
     if (m_isRegisteredPostProcess) m_postProcess(results);
-    else PostProcess(results);
+    else PostProcess(results, GetTimeStamp_ms() - start);
 
     return true;
 }
 
-bool ObjectDetectionImpl::PostProcess(std::vector<ObjectData> &results)
+bool ObjectDetectionImpl::PostProcess(std::vector<ObjectData> &results, int64_t time)
 {
     float strides[3] = {8, 16, 32};
     float anchorGrid[][6] = {
@@ -210,7 +211,7 @@ bool ObjectDetectionImpl::PostProcess(std::vector<ObjectData> &results)
             rect.bbox.y /= m_scale;
             rect.confidence = score;
             rect.label = max_idx - 5;
-
+            rect.time_cost = time;
             winList.push_back(rect);
         }
     }

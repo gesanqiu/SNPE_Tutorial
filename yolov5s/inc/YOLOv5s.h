@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-17 20:26:39
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-07-12 17:25:59
+ * @LastEditTime: 2023-02-24 15:15:16
  */
 
 #ifndef __YOLOV5S_H__
@@ -33,7 +33,7 @@ struct ObjectData {
     // The label of this Bounding box
     int label = -1;
     // Time cost of detecting this frame
-    size_t time_cost = 0;
+    int64_t time_cost = 0;
 };
 
 /**
