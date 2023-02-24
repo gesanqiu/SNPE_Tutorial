@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-17 20:27:51
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-07-12 08:27:04
+ * @LastEditTime: 2023-02-24 15:14:36
  */
 
 #ifndef __YOLOV5S_IMPL_H__
@@ -97,7 +97,7 @@ private:
     bool m_isRegisteredPostProcess = false;
 
     bool PreProcess(const cv::Mat& frame);
-    bool PostProcess(std::vector<ObjectData>& results);
+    bool PostProcess(std::vector<ObjectData>& results, int64_t time);
 
     pre_process_t m_preProcess;
     post_process_t m_postProcess;
