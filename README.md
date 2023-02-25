@@ -1,6 +1,6 @@
-# SNPETask
+# SNPE Tutorial
 
-[![](https://img.shields.io/badge/Auther-@RicardoLu-red.svg)](https://github.com/gesanqiu)![](https://img.shields.io/badge/Version-2.1.0-blue.svg)[![](https://img.shields.io/github/stars/gesanqiu/SNPE_Tutorial.svg?style=social&label=Stars)](https://github.com/gesanqiu/SNPE_Tutorial)
+[![](https://img.shields.io/badge/Auther-@RicardoLu-red.svg)](https://github.com/gesanqiu)![](https://img.shields.io/badge/Version-2.1.1-blue.svg)[![](https://img.shields.io/github/stars/gesanqiu/SNPE_Tutorial.svg?style=social&label=Stars)](https://github.com/gesanqiu/SNPE_Tutorial)
 
 欢迎各位star/fork本repo并进行学习交流。
 
