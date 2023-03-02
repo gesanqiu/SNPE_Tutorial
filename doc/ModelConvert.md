@@ -31,13 +31,15 @@ SNPE将onnx模型转换为dlc的命令很简单，转换失败最主要的原因
 
 - yolov5s.pt导出成yolov5s.onnx
 
-```shell
-python export.py --weights yolov5s.pt --include onnx
+yolov5s的v6.0版本以前的模型转换成onnx模型后，再转换为snpe的dlc模型时，会有snpe不支持的5-dimensions的输入输出数据的问题。需要使用v6.0版本后的yolov5s的模型，用如下命令进行转换：
+
+```Shell
+python3 export.py --weights yolov5s.pt --optimize --opset 11 --simplify --include onnx
 ```
 
 ![1657878424463](images/1657878424463.png)
 
-注：首次运行时会自动帮用户安装onnx package。
+注：首次运行时会自动帮用户安装onnx package，建议最好先安装好onnx，高通要求的onnx的版本是1.6.0。建议安装1.8.1版本的onnx更好些，可以转换yolov7的模型，1.6.0版本的则不行。
 
 - yolov5s.onnx转成yolov5s.dlc
 
