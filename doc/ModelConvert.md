@@ -1,14 +1,14 @@
 <!--
  * @Description: A tutorial of how to convert an onnx format model(YOLOv5s) to dlc.
- * @version: 2.0
+ * @version: 2.1
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-07-09 11:35:13
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2022-07-11 20:09:31
+ * @LastEditTime: 2023-03-04 07:22:52
 -->
 # Model Convert
 
-【注】：模型转换在x86 PC上进行。
+【注】：模型转换在x86 PC上进行，需要预先完成[SNPE Setup](https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html)。
 
 模型转换本身并不复杂，因为模型本身只代表一系列运算(算子Ops)，但是不同的框架(也可以说是不同的硬件平台所导致的)使用了不同的规范和实现，在各个框架之间做模型转换，通常会借助ONNX(Open Neural Network Exchange)这一规范来完成。 
 
@@ -26,6 +26,8 @@ SNPE将onnx模型转换为dlc的命令很简单，转换失败最主要的原因
 ## Convert YOLOv5s.onnx
 
 基于pytorch hub，yolov5不同格式的模型导出可以参考官方教程：[TFLite, ONNX, CoreML, TensorRT Export](https://github.com/ultralytics/yolov5/issues/251)，以下内容基于用户配置好了yolov5官方要求的环境进行。
+
+【注】：本Repo基于yolo5 v6.0进行。
 
 - yolov5s.pt导出成yolov5s.onnx
 
