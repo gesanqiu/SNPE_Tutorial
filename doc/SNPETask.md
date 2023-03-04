@@ -1,6 +1,6 @@
 <!--
  * @Description: An simple inference developed on SNPE.
- * @version: 2.0
+ * @version: 2.1
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-07-09 11:35:20
  * @LastEditors: Ricardo Lu
@@ -23,15 +23,16 @@
 ```c++
 SNPETask::SNPETask()
 {
-    static zdl::DlSystem::Version_t version = zdl::SNPE::SNPEFactory::getLibraryVersion();
-    LOG_INFO("Using SNPE: {}", version.asString().c_str());
+    Snpe_DlVersion_Handle_t versionHandle = Snpe_Util_GetLibraryVersion();
+    LOG_INFO("Using SNPE: {}", Snpe_DlVersion_ToString(versionHandle));
+    Snpe_DlVersion_Delete(versionHandle);
 }
 ```
 
-例如我使用的是snpe-1.61.0.3358版本，那么在运行测试程序时会首先输出如下log:
+例如我使用的是snpe-2.5.0.4052版本，那么在运行测试程序时会首先输出如下log:
 
 ```shell
-2022-07-09 08:43:11.583927 <thread 32506> [info] [/home/tc-eb5/local/SNPETask/snpetask/SNPETask.cpp:67] [SNPETask] Using SNPE: 1.61.0.3358
+2023-03-04 06:58:57.984925 <thread 17740> [info] [/home/tc-eb5/local/SNPE_Tutorial/snpetask/SNPETask.cpp:65] [SNPETask] Using SNPE: 2.5.0.4052
 ```
 
 由于在实现过程中为了对上层应用屏蔽SNPE相关的实现细节，我在`utility/utils.h`中声明了一个枚举类型的`runtime_t`，用于作为runtime参数，而在`SNPETask::init()`首先会对传入的`runtime_t`做switch-case选择。
@@ -41,33 +42,36 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
 {
     switch (runtime) {
         case CPU:
-            m_runtime = zdl::DlSystem::Runtime_t::CPU;
+            m_runtime = SNPE_RUNTIME_CPU;
             break;
         case GPU:
-            m_runtime = zdl::DlSystem::Runtime_t::GPU;
+            m_runtime = SNPE_RUNTIME_GPU;
             break;
-        case GPU_16:
-            m_runtime = zdl::DlSystem::Runtime_t::GPU_FLOAT16;
+        case GPU_FLOAT16:
+            m_runtime = SNPE_RUNTIME_GPU_FLOAT16;
             break;
         case DSP:
-            m_runtime = zdl::DlSystem::Runtime_t::DSP;
+            m_runtime = SNPE_RUNTIME_DSP;
+            break;
+        case DSP_FIXED8:
+            m_runtime = SNPE_RUNTIME_DSP_FIXED8_TF;
             break;
         case AIP:
-            m_runtime = zdl::DlSystem::Runtime_t::AIP_FIXED8_TF;
+            m_runtime = SNPE_RUNTIME_AIP_FIXED8_TF;
             break;
         default:
-            m_runtime = zdl::DlSystem::Runtime_t::CPU;
+            m_runtime = SNPE_RUNTIME_CPU;
             break;
     }
 
-    if (!zdl::SNPE::SNPEFactory::isRuntimeAvailable(m_runtime)) {
-        LOG_ERROR("Selected runtime not present. Falling back to CPU.");
-        m_runtime = zdl::DlSystem::Runtime_t::CPU;
+    if (!Snpe_Util_IsRuntimeAvailable(m_runtime)) {
+        LOG_ERROR("Selected runtime not supported. Falling back to CPU.");
+        m_runtime = SNPE_RUNTIME_CPU;
     }
 }
 ```
 
-在这里我将自定义的`runtime_t`转换成了SNPE能够处理的`zdl::DlSystem::Runtime_t`，并且调用相应的接口检查当前平台是否支持用户设置的runtime。SNPE支持的runtime与平台相关，官方给出了部分型号SOC支持的runtime list：
+在这里我将自定义的`runtime_t`转换成了SNPE能够处理的`Snpe_Runtime_t`，并且调用相应的接口检查当前平台是否支持用户设置的runtime。SNPE支持的runtime与平台相关，官方给出了部分型号SOC支持的runtime list：
 
 ![1657525070530](images/1657525070530.png)
 
@@ -80,7 +84,7 @@ runtime的细节需要了解平台所用SOC的datasheet，需要相关的硬件�
 ```c++
 bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
 {
-    m_container = zdl::DlContainer::IDlContainer::open(model_path);
+    m_container = Snpe_DlContainer_Open(model_path.c_str());
 }
 ```
 
@@ -94,15 +98,21 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
 bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
 {
     // ...
-    m_snpe = snpeBuilder.setOutputLayers(m_outputLayers)
-       .setRuntimeProcessorOrder(m_runtime)
-       .setPerformanceProfile(profile)
-       .setUseUserSuppliedBuffers(true)
-       .setCPUFallbackMode(true)
-       .build();
-    
-    if (nullptr == m_snpe.get()) {
-        const char* errStr = zdl::DlSystem::getLastErrorString();
+    Snpe_SNPEBuilder_Handle_t snpeBuilderHandle = Snpe_SNPEBuilder_Create(m_container);
+    Snpe_PerformanceProfile_t profile = SNPE_PERFORMANCE_PROFILE_BURST;
+    if (nullptr == m_runtimeList) m_runtimeList = Snpe_RuntimeList_Create();
+    Snpe_RuntimeList_Add(m_runtimeList, m_runtime);
+    Snpe_RuntimeList_Add(m_runtimeList, SNPE_RUNTIME_CPU);
+    Snpe_SNPEBuilder_SetRuntimeProcessorOrder(snpeBuilderHandle, m_runtimeList);
+    if (Snpe_SNPEBuilder_SetOutputLayers(snpeBuilderHandle, m_outputLayers)) {
+        LOG_ERROR("Snpe_SNPEBuilder_SetOutputLayers failed: {}", Snpe_ErrorCode_GetLastErrorString());
+        return false;
+    }
+    Snpe_SNPEBuilder_SetUseUserSuppliedBuffers(snpeBuilderHandle, true);
+    Snpe_SNPEBuilder_SetPerformanceProfile(snpeBuilderHandle, profile);
+    m_snpe = Snpe_SNPEBuilder_Build(snpeBuilderHandle);
+    if (nullptr == m_snpe) {
+        const char* errStr = Snpe_ErrorCode_GetLastErrorString();
         LOG_ERROR("SNPE build failed: {}", errStr);
         return false;
     }
@@ -110,132 +120,134 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
 }
 ```
 
-### setCPUFallbackMode()
+【注】：v2.5的SNPE由于使用C API，因此不再支持旧版C++ API中的链式函数。
 
-`setCPUFallbackMode(true)`这个选项是默认启用的，它用于将runtime不支持的layers回退到CPU上，避免运行错误。
+### Snpe_RuntimeList_Add()
 
-注：`setCPUFallbackMode()`选项即将被删除，建议使用`setRuntimeProcessorOrder()`替代。
+【注】：`setCPUFallbackMode()`选项被弃用，使用`setRuntimeProcessorOrder()`替代，因此现在runtime现在是一个list，实现上先将预期runtime添加进去，再另外添加一个`SNPE_RUNTIME_CPU`即可。
 
-### setOutputLayers()
+### Snpe_SNPEBuilder_SetOutputLayers()
 
-在构造`std::unique_ptr<zdl::SNPE::SNPE>`时，调用了[setOutputLayers()](https://developer.qualcomm.com/sites/default/files/docs/snpe/group__c__plus__plus__apis.html#a5aa93979416b17df898cb0c6f8425461)来设置当前模型的输出层，这其实意味着SNPE能够获取整个推理过程中任意一层网络的输出，但前提是你进行了相应的设置。并且这个设置是**必须的**，假如你没设置具体的输出层，那么默认会使用模型的最后一层作为输出，单输出层的网络可以使用默认，但是像Yolo网络它通常有三个输出层，显然不能仅依靠默认行为。
+在构造`Snpe_SNPE_Handle_t`时，调用了[Snpe_SNPEBuilder_SetOutputLayers()](https://developer.qualcomm.com/sites/default/files/docs/snpe/group__c__apis.html#gab4810af21701426011ca76df5416bb85)来设置当前模型的输出层，这其实意味着SNPE能够获取整个推理过程中任意一层网络的输出，但前提是你进行了相应的设置。并且这个设置是**必须的**，假如你没设置具体的输出层，那么默认会使用模型的最后一层作为输出，单输出层的网络可以使用默认，但是像Yolo网络它通常有三个输出层，显然不能仅依靠默认行为。
 
 这也是为什么在`src/TSYolov5Imple.cpp`的`TSObjectDetectionImpl::Initialize`中先调用了`m_task->setOutputLayers(m_outputLayers)`再调用`m_task->init(model_path, runtime)`。
 
 模型的输出层可以使用`snpe-dlc-info`工具和netron工具获得，下图是`snpe-dlc-info -i yolov5s.dlc`的输出：
 
-![1656929219039](../images/1656929219039.png)
+![image-20230304151120110](images/image-20230304151120110.png)
 
-可以看到`snpe-dlc-info`识别出了模型的六个output tensors，我们可以使用netron解析dlc模型，并搜索这六个output tensors对应的output layers。
+可以看到`snpe-dlc-info`识别出了模型的六个output tensors，SNEP v2.5的输出和v1.61的略有不同，并且由于目前Netron不支持解析v2.5的dlc，因此目前只能通过`snpe-dlc-info`的输出去看：
 
-![1656929486881](../images/1656929486881.png)
+![image-20230304151725503](images/image-20230304151725503.png)
 
-这里snpe识别出了`yolov5s.onnx`的六个output tensors，但上文提到yolov5系列网络只有三个输出层，这个与具体模型相关，假如我们具体去看这六个output tensors，会发现该其实这六个output tensors对应着两组输出：
+注1：[Snpe_SNPEBuilder_SetOutputTensors()](https://developer.qualcomm.com/sites/default/files/docs/snpe/group__c__plus__plus__apis.html#ad792b99cc17e500c1da28ff49572fdc2)与[Snpe_SNPEBuilder_SetOutputLayers()](https://developer.qualcomm.com/sites/default/files/docs/snpe/group__c__plus__plus__apis.html#a5aa93979416b17df898cb0c6f8425461)效果相同，两个设置一个即可。
 
-![1657526726047](images/1657526726047.png)
-
-如上图所示，`331`实际是`330`的下一层，并且`331`这一层是sigmoid激活层，而sigmoid运算在实现上并不困难。这意味着我们其实可以选取`[output，329，331]`这三层作为输出层，也可以选择`[326，328，330]`三层作为输出层，只是假如我们选择后者，那么我们需要在后处理中手动对每一个输出数据做一次sigmoid运算。
-
-注1：[setOutputTensors()](https://developer.qualcomm.com/sites/default/files/docs/snpe/group__c__plus__plus__apis.html#ad792b99cc17e500c1da28ff49572fdc2)与[setOutputLayers()](https://developer.qualcomm.com/sites/default/files/docs/snpe/group__c__plus__plus__apis.html#a5aa93979416b17df898cb0c6f8425461)效果相同，两个设置一个即可。
-
-注2：SNPE的其他Builder Options含义可阅读[zdl::SNPE::SNPEBuilder](https://developer.qualcomm.com/sites/default/files/docs/snpe/group__c__plus__plus__apis.html#classzdl_1_1SNPE_1_1SNPEBuilder)。
+注2：SNPE的其他Builder Options含义可阅读[SNPE C API](https://developer.qualcomm.com/sites/default/files/docs/snpe/group__c__apis.html#ga243656df3511bc730ac165b930e3a780)。
 
 ## ITensors & UesrBuffers
 
-ITensors和UserBuffers是两种内存类型，ITensors对应的就是User Space的普通memory(例如说malloc/new申请的内存)，UserBuffer则对应着DMA(ION内存)，在使用上两者最明显的差距就是ITensors比UserBuffers多一次`std::copy`（具体可以看[SNPE C++ Tutorial - Build the Sample](https://developer.qualcomm.com/sites/default/files/docs/snpe/cplus_plus_tutorial.html)）。
+ITensors和UserBuffers是两种内存类型，ITensors对应的就是User Space的普通memory(例如说malloc/new申请的内存)，UserBuffer则对应着DMA(ION内存)，在使用上两者最明显的差距就是ITensors比UserBuffers多一次`std::copy`（具体可以看[SNPE C Tutorial - Build the Sample](https://developer.qualcomm.com/sites/default/files/docs/snpe/c_tutorial.html)）。
 
 关于DMA，SNPE将有关内存管理的代码做了封装，因此只需要调用相关接口使用即可。在`snpetask/SNPETask.cpp`的实现中使用了UserBuffer，我们为每一个输入层和输出层申请了对应大小的ION Buffer用于存储输入图像数据和前向推理的输出数据，并将所有的ION Buffer的user space内存首地址存储在两个哈希表`m_inputTensors`和`m_outputTensors`中方便`src/TSYolov5Imple.cpp`在前后处理时进行索引（`getInputTensor`和`getOutputTensor`）。
 
 ```c++
-static void createUserBuffer(zdl::DlSystem::UserBufferMap& userBufferMap,
-                      std::unordered_map<std::string, float*>& applicationBuffers,
-                      std::vector<std::unique_ptr<zdl::DlSystem::IUserBuffer>>& snpeUserBackedBuffers,
-                      const zdl::DlSystem::TensorShape& bufferShape,
+static void createUserBuffer(Snpe_UserBufferMap_Handle_t userBufferMapHandle,
+                      std::unordered_map<std::string, std::vector<uint8_t>>& applicationBuffers,
+                      std::vector<Snpe_IUserBuffer_Handle_t>& snpeUserBackedBuffersHandle,
+                      Snpe_TensorShape_Handle_t bufferShapeHandle,
                       const char* name,
-                      float* buffer)
+                      size_t bufferElementSize)
 {
     // Calculate the stride based on buffer strides, assuming tightly packed.
     // Note: Strides = Number of bytes to advance to the next element in each dimension.
     // For example, if a float tensor of dimension 2x4x3 is tightly packed in a buffer of 96 bytes, then the strides would be (48,12,4)
     // Note: Buffer stride is usually known and does not need to be calculated.
-    std::vector<size_t> strides(bufferShape.rank());
+    std::vector<size_t> strides(Snpe_TensorShape_Rank(bufferShapeHandle));
     strides[strides.size() - 1] = sizeof(float);
     size_t stride = strides[strides.size() - 1];
-    for (size_t i = bufferShape.rank() - 1; i > 0; i--)
+    for (size_t i = Snpe_TensorShape_Rank(bufferShapeHandle) - 1; i > 0; i--)
     {
-        stride *= bufferShape[i];
-        strides[i-1] = stride;
+        stride *= Snpe_TensorShape_At(bufferShapeHandle, i);
+        strides[i - 1] = stride;
     }
-    // const size_t bufferElementSize = sizeof(float);
-    size_t bufSize = calcSizeFromDims(bufferShape.getDimensions(), bufferShape.rank(), 1);
-    buffer = new float[bufSize];
-
+    Snpe_TensorShape_Handle_t stridesHandle = Snpe_TensorShape_CreateDimsSize(strides.data(), Snpe_TensorShape_Rank(bufferShapeHandle));
+    size_t bufSize = calcSizeFromDims(Snpe_TensorShape_GetDimensions(bufferShapeHandle), Snpe_TensorShape_Rank(bufferShapeHandle), bufferElementSize);
+    LOG_INFO("Create [{}] buffer size: {}.", name, bufSize);
     // set the buffer encoding type
-    zdl::DlSystem::UserBufferEncodingFloat userBufferEncodingFloat;
+     Snpe_UserBufferEncoding_Handle_t userBufferEncodingFloatHandle = Snpe_UserBufferEncodingFloat_Create();
     // create user-backed storage to load input data onto it
-    applicationBuffers.emplace(name, buffer);
+    applicationBuffers.emplace(name, std::vector<uint8_t>(bufSize));
     // create SNPE user buffer from the user-backed buffer
-    zdl::DlSystem::IUserBufferFactory& ubFactory = zdl::SNPE::SNPEFactory::getUserBufferFactory();
-    snpeUserBackedBuffers.push_back(ubFactory.createUserBuffer(applicationBuffers.at(name),
-                                                                bufSize,
-                                                                strides,
-                                                                &userBufferEncodingFloat));
+    snpeUserBackedBuffersHandle.push_back(Snpe_Util_CreateUserBuffer(applicationBuffers.at(name).data(),
+                                                  bufSize,
+                                                  stridesHandle,
+                                                  userBufferEncodingFloatHandle));
     // add the user-backed buffer to the inputMap, which is later on fed to the network for execution
-    userBufferMap.add(name, snpeUserBackedBuffers.back().get());
+    Snpe_UserBufferMap_Add(userBufferMapHandle, name, snpeUserBackedBuffersHandle.back());
+    Snpe_UserBufferEncodingFloat_Delete(userBufferEncodingFloatHandle);
 }
 
 bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
 {
     // get input tensor names of the network that need to be populated
-    const auto& inputNamesOpt = m_snpe->getInputTensorNames();
-    if (!inputNamesOpt) throw std::runtime_error("Error obtaining input tensor names");
-    const zdl::DlSystem::StringList& inputNames = *inputNamesOpt;
-    m_inputTensorSize = inputNames.size();
-    m_inputBuffers = (float **)malloc(m_inputTensorSize * sizeof(float*));
-    int i = 0;
+    Snpe_StringList_Handle_t inputNamesHandle = Snpe_SNPE_GetInputTensorNames(m_snpe);
+    if (nullptr == inputNamesHandle) throw std::runtime_error("Error obtaining input tensor names");
+    assert(Snpe_StringList_Size(inputNamesHandle) > 0);
+
     // create SNPE user buffers for each application storage buffer
-    for (const char* name : inputNames) {
+    if (nullptr == m_inputUserBufferMap) m_inputUserBufferMap = Snpe_UserBufferMap_Create();
+    for (size_t i = 0; i < Snpe_StringList_Size(inputNamesHandle); ++i) {
+        const char* name = Snpe_StringList_At(inputNamesHandle, i);
         // get attributes of buffer by name
-        auto bufferAttributesOpt = m_snpe->getInputOutputBufferAttributes(name);
-        if (!bufferAttributesOpt) {
-            LOG_ERROR("Error obtaining attributes for input tensor: %s", name);
+        auto bufferAttributesOptHandle = Snpe_SNPE_GetInputOutputBufferAttributes(m_snpe, name);
+        if (nullptr == bufferAttributesOptHandle) {
+            LOG_ERROR("Error obtaining attributes for input tensor: {}", name);
             return false;
         }
 
-        const zdl::DlSystem::TensorShape& bufferShape = (*bufferAttributesOpt)->getDims();
+        auto bufferShapeHandle = Snpe_IBufferAttributes_GetDims(bufferAttributesOptHandle);
         std::vector<size_t> tensorShape;
-        for (size_t j = 0; j < bufferShape.rank(); j++) {
-            tensorShape.push_back(bufferShape[j]);
+        for (size_t j = 0; j < Snpe_TensorShape_Rank(bufferShapeHandle); j++) {
+            tensorShape.push_back(Snpe_TensorShape_At(bufferShapeHandle, j));
         }
         m_inputShapes.emplace(name, tensorShape);
 
-        createUserBuffer(m_inputUserBufferMap, m_inputTensors, m_inputUserBuffers, bufferShape, name, m_inputBuffers[i++]);
+        // size_t bufferElementSize = Snpe_IBufferAttributes_GetElementSize(bufferAttributesOptHandle);
+        createUserBuffer(m_inputUserBufferMap, m_inputTensors, m_inputUserBuffers, bufferShapeHandle, name, sizeof(float));
+
+        Snpe_IBufferAttributes_Delete(bufferAttributesOptHandle);
+        Snpe_TensorShape_Delete(bufferShapeHandle);
     }
+    Snpe_StringList_Delete(inputNamesHandle);
 
     // get output tensor names of the network that need to be populated
-    const auto& outputNamesOpt = m_snpe->getOutputTensorNames();
-    if (!outputNamesOpt) throw std::runtime_error("Error obtaining output tensor names");
-    const zdl::DlSystem::StringList& outputNames = *outputNamesOpt;
-    m_outputTensorSize = outputNames.size();
-    m_outputBuffers = (float **)malloc(m_outputTensorSize * sizeof(float*));
-    i = 0;
+    if (nullptr == m_outputUserBufferMap) m_outputUserBufferMap = Snpe_UserBufferMap_Create();
+    Snpe_StringList_Handle_t outputNamesHandle = Snpe_SNPE_GetOutputTensorNames(m_snpe);
+    if (nullptr == outputNamesHandle) throw std::runtime_error("Error obtaining input tensor names");
+    assert(Snpe_StringList_Size(outputNamesHandle) > 0);
+
     // create SNPE user buffers for each application storage buffer
-    for (const char* name : outputNames) {
+    for (size_t i = 0; i < Snpe_StringList_Size(outputNamesHandle); ++i) {
+        const char* name = Snpe_StringList_At(outputNamesHandle, i);
         // get attributes of buffer by name
-        auto bufferAttributesOpt = m_snpe->getInputOutputBufferAttributes(name);
-        if (!bufferAttributesOpt) {
-            LOG_ERROR("Error obtaining attributes for input tensor: %s", name);
+        auto bufferAttributesOptHandle = Snpe_SNPE_GetInputOutputBufferAttributes(m_snpe, name);
+        if (!bufferAttributesOptHandle) {
+            LOG_ERROR("Error obtaining attributes for input tensor: {}", name);
             return false;
         }
 
-        const zdl::DlSystem::TensorShape& bufferShape = (*bufferAttributesOpt)->getDims();
+        auto bufferShapeHandle = Snpe_IBufferAttributes_GetDims(bufferAttributesOptHandle);
         std::vector<size_t> tensorShape;
-        for (size_t j = 0; j < bufferShape.rank(); j++) {
-            tensorShape.push_back(bufferShape[j]);
+        for (size_t j = 0; j < Snpe_TensorShape_Rank(bufferShapeHandle); j++) {
+            tensorShape.push_back(Snpe_TensorShape_At(bufferShapeHandle, j));
         }
         m_outputShapes.emplace(name, tensorShape);
 
-        createUserBuffer(m_outputUserBufferMap, m_outputTensors, m_outputUserBuffers, bufferShape, name, m_outputBuffers[i++]);
+        // size_t bufferElementSize = Snpe_IBufferAttributes_GetElementSize(bufferAttributesOptHandle);
+        createUserBuffer(m_outputUserBufferMap, m_outputTensors, m_outputUserBuffers, bufferShapeHandle, name, sizeof(float));
+
+        Snpe_IBufferAttributes_Delete(bufferAttributesOptHandle);
+        Snpe_TensorShape_Delete(bufferShapeHandle);
     }
 }
 ```
@@ -253,8 +265,8 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
 ```c++
 bool SNPETask::execute()
 {
-    if (!m_snpe->execute(m_inputUserBufferMap, m_outputUserBufferMap)) {
-        LOG_ERROR("SNPETask execute failed: %s", zdl::DlSystem::getLastErrorString());
+    if (SNPE_SUCCESS != Snpe_SNPE_ExecuteUserBuffers(m_snpe, m_inputUserBufferMap, m_outputUserBufferMap)) {
+        LOG_ERROR("SNPETask execute failed: {}", Snpe_ErrorCode_GetLastErrorString());
         return false;
     }
 
@@ -262,8 +274,8 @@ bool SNPETask::execute()
 }
 ```
 
-SNPE会自动将输出数据放入` m_inputTensors[0]`，` m_inputTensors[1]`，` m_inputTensors[2]`对应的内存buffer中，用户只需要从`m_outputUserBufferMap`中将其取出来再进行后处理即可。
+SNPE会自动将输出数据放入` m_outputTensors[0]`，` m_outputTensors[1]`，` m_outputTensors[2]`对应的内存buffer中，用户只需要从`m_outputUserBufferMap`中将其取出来再进行后处理即可。
 
 
 
-至此，SNPETask的解析就到此为止，其余代码是一系列辅助性的getter接口，主要用于上层封装获取模型的基本信息和输入输出buffer首地址，代码并不复杂所以这里不再赘述，有兴趣的读者可以思考一下这种设计的易用性。
+【注】：至此，SNPETask的解析就到此为止，其余代码是一系列辅助性的getter接口，主要用于上层封装获取模型的基本信息和输入输出buffer首地址。SNPE v2.5的C API和v1.61的C++ API最大的区别就是，C API不具有面向对象的设计，将C++中的所有类都改为了对应handle_t，不再由析构自动回收资源，所有的handle都需要用户自行回收。
