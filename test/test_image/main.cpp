@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-18 16:51:10
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2023-02-24 15:02:47
+ * @LastEditTime: 2023-03-04 03:49:27
  */
 
 #include <string>
@@ -232,7 +232,15 @@ int main(int argc, char* argv[])
 
         for (size_t j = 0; j < vec_res.size(); j++) {
             yolov5::ObjectData result = vec_res[j];
-            LOG_INFO("[{}, {}, {}, {}, {}, {}]", result.bbox.x, result.bbox.y, result.bbox.width, result.bbox.height, result.confidence, result.label);
+            LOG_INFO("[{}, {}, {}, {}, {}, {}, time cost: {}]",
+                result.bbox.x,
+                result.bbox.y,
+                result.bbox.width,
+                result.bbox.height,
+                result.confidence,
+                result.label,
+                result.time_cost);
+
             cv::rectangle(img, cv::Rect(result.bbox.x, result.bbox.y, result.bbox.width, result.bbox.height), cv::Scalar(0, 255, 0), 3);
             cv::Point position = cv::Point(result.bbox.x, result.bbox.y - 10);
             cv::putText(img, labels[result.label], position, cv::FONT_HERSHEY_COMPLEX, 0.8, cv::Scalar(0, 255, 0), 2, 0.3);
