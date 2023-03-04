@@ -4,7 +4,7 @@
  * @Author: Ricardo Lu<shenglu1202@163.com>
  * @Date: 2022-05-18 09:48:36
  * @LastEditors: Ricardo Lu
- * @LastEditTime: 2023-02-24 15:08:41
+ * @LastEditTime: 2023-03-04 07:18:49
  */
 
 
@@ -46,7 +46,7 @@ static void createUserBuffer(Snpe_UserBufferMap_Handle_t userBufferMapHandle,
     size_t bufSize = calcSizeFromDims(Snpe_TensorShape_GetDimensions(bufferShapeHandle), Snpe_TensorShape_Rank(bufferShapeHandle), bufferElementSize);
     LOG_INFO("Create [{}] buffer size: {}.", name, bufSize);
     // set the buffer encoding type
-     Snpe_UserBufferEncoding_Handle_t userBufferEncodingFloatHandle = Snpe_UserBufferEncodingFloat_Create();
+    Snpe_UserBufferEncoding_Handle_t userBufferEncodingFloatHandle = Snpe_UserBufferEncodingFloat_Create();
     // create user-backed storage to load input data onto it
     applicationBuffers.emplace(name, std::vector<uint8_t>(bufSize));
     // create SNPE user buffer from the user-backed buffer
@@ -109,13 +109,12 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
         m_runtime = SNPE_RUNTIME_CPU;
     }
 
-    // zdl::DlSystem::PerformanceProfile_t profile = zdl::DlSystem::PerformanceProfile_t::BURST;
-
     m_container = Snpe_DlContainer_Open(model_path.c_str());
     Snpe_SNPEBuilder_Handle_t snpeBuilderHandle = Snpe_SNPEBuilder_Create(m_container);
     Snpe_PerformanceProfile_t profile = SNPE_PERFORMANCE_PROFILE_BURST;
     if (nullptr == m_runtimeList) m_runtimeList = Snpe_RuntimeList_Create();
     Snpe_RuntimeList_Add(m_runtimeList, m_runtime);
+    Snpe_RuntimeList_Add(m_runtimeList, SNPE_RUNTIME_CPU);
     Snpe_SNPEBuilder_SetRuntimeProcessorOrder(snpeBuilderHandle, m_runtimeList);
     if (Snpe_SNPEBuilder_SetOutputLayers(snpeBuilderHandle, m_outputLayers)) {
         LOG_ERROR("Snpe_SNPEBuilder_SetOutputLayers failed: {}", Snpe_ErrorCode_GetLastErrorString());
@@ -190,8 +189,8 @@ bool SNPETask::init(const std::string& model_path, const runtime_t runtime)
         Snpe_IBufferAttributes_Delete(bufferAttributesOptHandle);
         Snpe_TensorShape_Delete(bufferShapeHandle);
     }
-    Snpe_StringList_Delete(outputNamesHandle);
 
+    Snpe_StringList_Delete(outputNamesHandle);
     Snpe_SNPEBuilder_Delete(snpeBuilderHandle);
 
     m_isInit = true;
