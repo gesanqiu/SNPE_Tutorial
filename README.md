@@ -6,6 +6,8 @@
 
 【注】：提Support Request/New Requirement前请先star。
 
+视频教程：[基于高通SNPE推理引擎的yolov5目标检测算法——项目简介](https://www.bilibili.com/video/BV1p24y1n7M6/?share_source=copy_web)
+
 ## Overview
 
 ![1656919889506](images/1656919889506.png)
