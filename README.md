@@ -13,63 +13,89 @@
 上图源自Snapdragon Neural Processing Engine SDK Reference Guide，它展示了一个Deep Learning Neural Network在SNPE环境下的Workflow。本repo主要关注Workflow中的第二个阶段，当你拥有一个预训练模型（以`yolov5s.onnx`为例），如何从Model Convert到SNPE Enabled App，如官方教程所言，主要有以下四个步骤：
 
 - [Model Convert](./doc/ModelConvert.md)：把`.tf/.tflite/.onnx/caffe/caffe2/.pt`等网络预训练模型转换为一个能够被SNPE加载的DLC文件。
-- [Benchmark](./doc/Benchmark.md)：量化模型，以便能在Hexagon DSP上运行（可选项）。 
+- [Model Quantize](./doc/ModelQuantize.md)：量化模型，以便能在Hexagon DSP上运行（可选项）。
 - [SNPETask](./doc/SNPETask.md)：使用SNPE runtime加载模型并完成推理。
 - [YOLOv5s](./doc/YOLOv5s.md)：Pre-process（处理输入）和Post-process（处理输出）。
 
 ## File Tree
 
 ```shell
-root@tc-eb5:/home/tc-eb5/local/SNPETask# tree
+ts@ts-OptiPlex-7070:~/workSpace/SNPE_Tutorial$ tree
 .
+├── alg                                     # Encapsulation for AIRunner.
+│   └── yolov5s
+│       ├── AlgInterface.h
+│       ├── AlgYolov5s.cpp
+│       ├── CMakeLists.txt
+│       ├── Common.h
+│       └── yolov5s.json
+├── benchmark                               # Benchmark files.
+│   └── yolov5s
+│       ├── create_raw.py
+│       ├── cropped
+│       ├── results
+│       │   └── benchmark_stats_YOLOv5s.csv
+│       ├── snpe-bench_cmds.sh
+│       ├── target_raw_list.txt
+│       ├── yolov5s.dlc
+│       └── yolov5s_example.json
+├── build.sh
 ├── CMakeLists.txt
-├── LICENSE
-├── README.md
-├── build.sh                  # Build Script.
-├── doc                       # Tutorials.
+├── doc                                     # Tutorial documents.
 │   ├── Benchmark.md
 │   ├── FAQ.md
+│   ├── images
 │   ├── ModelConvert.md
+│   ├── ModelQuantize.md
 │   ├── SNPETask.md
 │   └── YOLOv5s.md
-├── lib                       # ELF of YOLOv5s SDK.
-│   └── libYOLOv5s.so
+├── images
+├── lib
+│   ├── libAlgYolov5s.so
+│   └── libYOLOv5s.so                       # ELF of YOLOv5s SDK.
+├── LICENSE
 ├── model
-│   ├── yolov5s.dlc
-│   └── yolov5s_labels.txt
-├── snpetask                  # SNPE runtime SDK source codes.
+│   ├── yolov5s_full.dlc                    # DLC format model converted from yolov5s_full.onnx.
+│   ├── yolov5s_full.onnx                   # ONNX format model converted from YOLOv5s v6.0 .pt.
+│   ├── yolov5s_labels.txt                  # Classes of YOLOv5s.
+│   ├── yolov5s.onnx                        # Cropped ONNX format model converted from  cropped YOLOv5s v6.0 .pt.
+│   ├── yolov5s_v2.5.dlc                    # DLC format model converted from yolov5s.onnx.
+│   ├── yolov5s_v2.5_quantized.dlc          # Quantized DLC format model of yolov5s_v2.5.dlc
+│   └── yolov5s_v2.5.txt                    # DLC information of yolov5s_v2.5.dlc.
+├── README.md
+├── snpetask                                # SNPE runtime SDK.
 │   ├── SNPETask.cpp
 │   └── SNPETask.h
-├── test                      # Test program.
-│   ├── test_image            # Image input.
+├── test                                    # Test program.
+│   ├── test_image                          # Image input.
 │   │   ├── CMakeLists.txt
 │   │   ├── config.json
 │   │   ├── main.cpp
 │   │   ├── orange.jpeg
 │   │   └── people.jpg
-│   └── test_video            # Stream input.
+│   └── test_video                          # Stream input.
 │       ├── CMakeLists.txt
-│       ├── Flowchart.jpg
+│       ├── config.json
+│       ├── main.cpp
 │       ├── SafeQueue.h
 │       ├── VideoAnalyzer.cpp
 │       ├── VideoAnalyzer.h
 │       ├── VideoPipeline.cpp
 │       ├── VideoPipeline.h
-│       ├── config.json
-│       ├── main.cpp
-│       └── yolov5s_thresholds.txt    # Class base threshold.
+│       └── yolov5s_thresholds.txt
 ├── utility
-│   ├── Logger.h              # Singleton logger based on spdlog library.
+│   ├── Logger.h                            # Singleton logger based on spdlog library.
 │   └── utils.h
-└── yolov5s                   # YOLOv5s Inference SDK source codes.
+└── yolov5s                                 # YOLOv5s Inference SDK.
     ├── CMakeLists.txt
     ├── inc
     │   ├── YOLOv5s.h
     │   └── YOLOv5sImpl.h
-    ├── src
-    │   ├── YOLOv5s.cpp
-    │   └── YOLOv5sImpl.cpp
-    └── yolov5s.json
+    └── src
+        ├── YOLOv5s.cpp
+        └── YOLOv5sImpl.cpp
+
+19 directories, 87 files
 ```
 
 ## Prerequisites
@@ -77,7 +103,7 @@ root@tc-eb5:/home/tc-eb5/local/SNPETask# tree
 - 开发平台：Qualcomm® QRB5165 (Linux-Ubuntu 18.04)
 - 图形界面：Weston(Wayland)
 - 开发框架：Gstreamer-1.14.5，OpenCV-4.5.5
-- 算法引擎：snpe-1.61.0.3358(不支持1.62及以上版本的SNPE)
+- 算法引擎：snpe-2.5.0.4052
 - 算法示例模型：YOLOv5s.onnx
 - 第三方库：gflags，json-glib-1.0，glib-2.0，spdlog-1.10.0，jsoncpp-1.7.4，mosquitto，mosquitto-clients
 - 构建工具：CMake-3.10.2
@@ -92,6 +118,21 @@ root@tc-eb5:/home/tc-eb5/local/SNPETask# tree
 ```
 
 ## Build & Compile
+
+<details open>
+<summary>Build/Install with CMake</summary>
+
+```shell
+mkdir build
+cd build
+cmake ..
+make install
+```
+
+</details>
+
+<details>
+<summary>Build/Install with build.sh</summary>
 
 项目使用`CMakeLists.txt`进行构建和包管理，并提供了`build.sh`脚本用于构建整个项目，运行成功将输出如下log：
 
@@ -110,6 +151,8 @@ root@tc-eb5:/home/tc-eb5/local/SNPETask# tree
 其中`test-yolov5`为测试程序，`alg-yolov5s-01-linux_2.0-rel_arm64.deb`为`checkinstall`追踪make install生成的deb安装包。
 
 `alg-yolov5s-01-linux_2.0-rel_arm64.deb`可以直接使用`dpkg - i`命令安装，内含YOLOV5S SDK和AIRunner ALG两部分内容，均被安装至`/opt/thundersoft/`目录下，详细安装路径可以参考`CMakeLists.txt`中的install语句。
+
+</details>
 
 ## Run Test Program
 
@@ -165,22 +208,20 @@ Flags from /home/tc-eb5/local/SNPE_Tutorial/test/main.cpp:
 
 ![1657356392597](images/1657356392597.png)
 
-【注】：由于yolov5自身网络的原因，导致无法其无法在GPU runtime上获得正确的运行结果，因此不建议使用GPU runtime。
-
 ### test_video
 
 `test_video`基于GStreamer框架，能够读取RTSP流并解码传递给Inference SDK进行推理，通过MQTT协议将推理结果发到MQTT Broker上，整体架构简图所示：
 
-![Flowchart](images/Flowchart.jpg)
+![test_video](images/test_video.png)
 
 `VideoPipeline`：视频解码模块，使用`uridecodebin`插件，能够处理RTSP流或MP4视频文件。
 
-`VideoAnalyzer`：视频分析模块，基于`libYOLOv5s.so`，完成推理并发送MQTT消息。
+`VideoAnalyzer`：视频分析模块，依赖`libYOLOv5s.so`，完成推理并发送JSON格式的MQTT消息。
 
 `SaftyQueue`：生产者消费者队列，`VideoPipeline`生产帧，`VideoAnalyzer`消耗帧。
 
 ```shell
-# 运行test-video前确保MQTT Broker服务已经启动
+# 运行test-video前确保MQTT Broker服务已经启动，可以使用`systemctl status mosquitt`查看
 # systemctl status mosquitto
 ./test/test_video/test-video --config_path ../test/test_video/config.json
 
