@@ -53,7 +53,7 @@ static bool validateInput(const char* name, const std::string& value)
         return true;
     }
 
-    LOG_ERROR("Can't stat input image file: %s", value.c_str());
+    LOG_ERROR("Can't stat input image file: {}", value.c_str());
     return false;
 }
 
@@ -72,7 +72,7 @@ static bool validateLabels(const char* name, const std::string& value)
         return true;
     }
 
-    LOG_ERROR("Can't stat labels file: %s", value.c_str());
+    LOG_ERROR("Can't stat labels file: {}", value.c_str());
     return false;
 }
 
@@ -91,7 +91,7 @@ static bool validateConfigPath(const char* name, const std::string& value)
         return true;
     }
 
-    LOG_ERROR("Can't stat model file: %s", value.c_str());
+    LOG_ERROR("Can't stat model file: {}", value.c_str());
     return false;
 }
 
@@ -230,7 +230,7 @@ int main(int argc, char* argv[])
 
         for (size_t j = 0; j < vec_res.size(); j++) {
             yolov5::ObjectData result = vec_res[j];
-            LOG_INFO("[{}, {}, {}, {}, {}, {}]", result.bbox.x, result.bbox.y, result.bbox.width, result.bbox.height, result.confidence, result.label);
+            LOG_INFO("[{}, {}, {}, {}, {}, {}, {}]", result.bbox.x, result.bbox.y, result.bbox.width, result.bbox.height, result.confidence, result.label, result.time_cost);
             cv::rectangle(img, cv::Rect(result.bbox.x, result.bbox.y, result.bbox.width, result.bbox.height), cv::Scalar(0, 255, 0), 3);
             cv::Point position = cv::Point(result.bbox.x, result.bbox.y - 10);
             cv::putText(img, labels[result.label], position, cv::FONT_HERSHEY_COMPLEX, 0.8, cv::Scalar(0, 255, 0), 2, 0.3);

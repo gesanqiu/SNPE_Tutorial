@@ -97,7 +97,7 @@ private:
     bool m_isRegisteredPostProcess = false;
 
     bool PreProcess(const cv::Mat& frame);
-    bool PostProcess(std::vector<ObjectData>& results);
+    bool PostProcess(std::vector<ObjectData> &results, int64_t time);
 
     pre_process_t m_preProcess;
     post_process_t m_postProcess;

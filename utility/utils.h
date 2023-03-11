@@ -42,3 +42,11 @@ static float calcIoU(const cv::Rect& a, const cv::Rect& b) {
         (b.width + 1.) * (b.height + 1.) - intersection;
     return intersection / unio;
 }
+
+static int64_t GetTimeStamp_ms()
+{
+    std::chrono::time_point<std::chrono::system_clock,std::chrono::milliseconds> tp =
+    std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
+    std::time_t timestamp =  tp.time_since_epoch().count();
+    return timestamp;
+}
