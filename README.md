@@ -177,7 +177,7 @@ Flags from /home/tc-eb5/local/SNPE_Tutorial/test/main.cpp:
 测试程序将根据用户运行参数来初始化YOLOV5S Inference SDK对象并对输入图像进行推理，以下是在`build`目录下的一个运行样例：
 
 ```shell
-./test/test_image test-image --input ../test/people.jpg --labels ../model/yolov5s_labels.txt --config_path ../yolov5s/yolov5s.json
+./test/test_image/test-image --input ../test/test_image/people.jpg --labels ../model/yolov5s_labels.txt --config_path ../test/test_image/config.json
 ```
 
 上述命令以`test`目录下的`people.jpg`为待检测图片，使用`model`目录下的`yolov5s_labels.txt`作为模型类别输入，`yolov5s`目录下的`yolov5s.json`作为模型配置文件。
