@@ -7,19 +7,40 @@ project(SNPETask)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_TYPE "Release")
 
-set(OpenCV_DIR "/opt/thundersoft/opencv-4.5.5/lib/cmake/opencv4")
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+  set(PKG_CONFIG_EXECUTABLE ${VCPKG_DIR}/installed/x64-windows/tools/pkgconf/pkgconf.exe)
+  set(SNPE_INCLUDE_DIR D:/Tools/snpe-2.6.0.4131/include/zdl)
+  set(SNPE_LIBRARY_DIR D:/Tools/snpe-2.6.0.4131/lib/aarch64-windows-vc19)
+  set(UTILITY_SOURCES ${PROJECT_SOURCE_DIR}/utility/unpack.c
+		      ${PROJECT_SOURCE_DIR}/utility/unparse.c
+                      ${PROJECT_SOURCE_DIR}/utility/gettimeofday.c)
+endif()
+
+if (CMAKE_SYSTEM_NAME MATCHES "Linux")
+  set(OpenCV_DIR "/opt/thundersoft/opencv-4.5.5/lib/cmake/opencv4")
+  set(SNPE_INCLUDE_DIR /usr/include/zdl)
+  set(SNPE_LIBRARY_DIR /usr/lib/aarch64-linux-gnu)
+  set(PTHREAD_DL_LIBS pthread dl)
+endif()
 find_package(OpenCV REQUIRED)
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+  find_package(gflags REQUIRED)
+  find_package(jsoncpp REQUIRED)
+endif()
+find_package(fmt REQUIRED)
 find_package(spdlog REQUIRED)
 
 include(FindPkgConfig)
 pkg_check_modules(GST     REQUIRED gstreamer-1.0)
-pkg_check_modules(GFLAGS  REQUIRED gflags)
-pkg_check_modules(JSONCPP REQUIRED jsoncpp)
+if (CMAKE_SYSTEM_NAME MATCHES "Linux")
+  pkg_check_modules(GFLAGS  REQUIRED gflags)
+  pkg_check_modules(JSONCPP REQUIRED jsoncpp)
+endif()
 pkg_check_modules(GSTAPP  REQUIRED gstreamer-app-1.0)
 pkg_check_modules(JSON    REQUIRED json-glib-1.0)
 
 include_directories(
-    /usr/include/zdl
+    ${SNPE_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/inc
     ${PROJECT_SOURCE_DIR}/snpetask
     ${PROJECT_SOURCE_DIR}/utility
@@ -35,13 +56,14 @@ include_directories(
 link_directories(
     ${OpenCV_LIBRARY_DIRS}
     ${GFLAGS_LIBRARY_DIRS}
+    ${fmt_LIBRARY_DIRS}
     ${spdlog_LIBRARY_DIRS}
     ${JSON_LIBRARY_DIRS}
     ${GST_LIBRARY_DIRS}
     ${GSTAPP_LIBRARY_DIRS}
     ${JSONCPP_LIBRARY_DIRS}     # jsoncpp library directory
     ${PROJECT_SOURCE_DIR}/lib
-    /usr/lib/aarch64-linux-gnu
+    ${SNPE_LIBRARY_DIR}
 )
 
 set(LIBRARY_OUTPUT_PATH  ${CMAKE_SOURCE_DIR}/lib)

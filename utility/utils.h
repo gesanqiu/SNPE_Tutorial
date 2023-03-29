@@ -16,8 +16,16 @@
 
 #include "Logger.h"
 
-#ifndef EXPORT_API
-#define EXPORT_API __attribute__ ((visibility("default")))
+#if defined(_MSC_VER)
+  #ifdef DLL_EXPORTS
+    #define EXPORT_API __declspec(dllexport)
+  #else
+    #define EXPORT_API __declspec(dllimport)
+  #endif
+#elif __GNUC__ >= 4
+    #define EXPORT_API __attribute__ ((visibility("default")))
+#else
+    #define EXPORT_API
 #endif
 
 // Inference hardware runtime.

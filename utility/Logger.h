@@ -27,7 +27,12 @@ static inline int NowDateToInt()
     time(&now);
 
     tm p;
+#if defined(WIN32) || defined(_WIN32)
+    localtime_s(&p, &now);
+#else
     localtime_r(&now, &p);
+#endif
+
     int now_date =(1900 + p.tm_year) * 10000 +(p.tm_mon + 1) * 100 + p.tm_mday;
     return now_date;
 }
@@ -38,7 +43,11 @@ static inline int NowTimeToInt()
     time(&now);
 
     tm p;
+#if defined(WIN32) || defined(_WIN32)
+    localtime_s(&p, &now);
+#else
     localtime_r(&now, &p);
+#endif
 
     int now_int = p.tm_hour * 10000 + p.tm_min * 100 + p.tm_sec;
     return now_int;

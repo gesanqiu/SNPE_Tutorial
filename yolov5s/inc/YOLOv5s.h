@@ -58,7 +58,7 @@ typedef std::function<bool(std::vector<ObjectData>& results)> post_process_t;
 /**
  * @brief: Object detection instance.
  */
-class ObjectDetection {
+class EXPORT_API ObjectDetection {
 public:
     /**
      * @brief: Constructor.

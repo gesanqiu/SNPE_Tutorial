@@ -9,7 +9,12 @@
 
 #include <iostream>
 #include <fstream>
+#if defined(WIN32) || defined(_WIN32)
+#include <time.h>
+#include <gettimeofday.h>
+#else
 #include <sys/time.h>
+#endif
 
 #include "VideoAnalyzer.h"
 

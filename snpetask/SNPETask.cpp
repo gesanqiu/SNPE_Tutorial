@@ -216,6 +216,7 @@ bool SNPETask::deInit()
     if (nullptr != m_snpe) Snpe_SNPE_Delete(m_snpe);
     if (nullptr != m_container) Snpe_DlContainer_Delete(m_container);
 
+    return true;
 }
 
 bool SNPETask::setOutputLayers(std::vector<std::string>& outputLayers)

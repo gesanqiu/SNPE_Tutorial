@@ -7,7 +7,11 @@
  * @LastEditTime: 2022-07-12 08:24:29
  */
 
+#if defined(WIN32) || defined(_WIN32)
+#include <time.h>
+#else
 #include <unistd.h>
+#endif
 
 #include "YOLOv5sImpl.h"
 
