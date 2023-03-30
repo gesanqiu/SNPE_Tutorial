@@ -12,7 +12,11 @@
 
 #include <vector>
 #include <string>
+#if defined(WIN32) || defined(_WIN32)
+#include <time.h>
+#else
 #include <unistd.h>
+#endif
 #include <memory>
 
 #include "SNPETask.h"

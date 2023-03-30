@@ -5,6 +5,7 @@ PROJECT(AlgYolov5s)
 add_library(${PROJECT_NAME}
     SHARED
     AlgYolov5s.cpp
+    ${UTILITY_SOURCES}
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -12,6 +13,7 @@ target_include_directories(${PROJECT_NAME}
     ${GST_INCLUDE_DIRS}
     ${GLIB_INCLUDE_DIRS}
     ${JSON_INCLUDE_DIRS}
+    ${JSONCPP_INCLUDE_DIRS}     # jsoncpp header directory
     ${OpenCV_INCLUDE_DIRS}
     ./
 )
@@ -20,6 +22,7 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
     ${OpenCV_LIBS}
     ${GLIB_LIBRARIES}
+    ${GST_LIBRARIES}
     ${JSON_LIBRARIES}
     YOLOv5s
 )

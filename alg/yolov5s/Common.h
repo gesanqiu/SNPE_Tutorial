@@ -21,7 +21,11 @@
 #include <map>
 
 #include <json-glib/json-glib.h>
+#if defined(WIN32) || defined(_WIN32)
+#include <uuid.h>
+#else
 #include <uuid/uuid.h>
+#endif
 #include <gst/gst.h>
 
 //

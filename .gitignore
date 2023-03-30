@@ -32,6 +32,12 @@
 
 # Build
 build/
+ReleaseArm64
+lib/
 
 # VS Code Config
 .vscode/
+
+# vim files
+*~
+.*.swp

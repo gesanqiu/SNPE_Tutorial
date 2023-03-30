@@ -13,8 +13,8 @@ add_library(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     SNPE
-    pthread
-    dl
+    ${PTHREAD_DL_LIBS}
+    fmt::fmt
     ${OpenCV_LIBS}
     ${spdlog_LIBRARIES}
 )
